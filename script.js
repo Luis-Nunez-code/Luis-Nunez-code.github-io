@@ -25,19 +25,26 @@ chips.forEach(btn => {
   });
 });
 
-// ---- MODAL / Lightbox with fit-to-screen + zoom + pan ----
+// ---- MODAL / Lightbox + Navigation + Zoom/Pan ----
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
 const modalViewer = document.getElementById("modalViewer");
 
-// transform state
+const btnPrev = document.querySelector(".modal__prev");
+const btnNext = document.querySelector(".modal__next");
+
+// Transform state (zoom/pan)
 let scale = 1;
 let translateX = 0;
 let translateY = 0;
 
 let isDragging = false;
-let startX = 0;
-let startY = 0;
+let dragStartX = 0;
+let dragStartY = 0;
+
+// Gallery navigation state
+let galleryItems = []; // [{ src, alt }]
+let currentIndex = 0;
 
 function applyTransform() {
   modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
@@ -61,44 +68,84 @@ function resetZoom() {
   setZoomedUI(false);
 }
 
-function openModal(src, alt) {
-  modalImg.src = src;
-  modalImg.alt = alt || "Full-size preview";
+function getVisibleThumbs() {
+  return thumbs.filter(t => !t.classList.contains("is-hidden"));
+}
+
+function buildGalleryItemsFromVisibleThumbs() {
+  const visibleThumbs = getVisibleThumbs();
+  galleryItems = visibleThumbs.map(t => {
+    const img = t.querySelector("img");
+    return {
+      src: t.dataset.full || img.src,
+      alt: img.alt || "Full-size preview"
+    };
+  });
+  return visibleThumbs;
+}
+
+function setModalImageByIndex(idx) {
+  if (!galleryItems.length) return;
+
+  // wrap-around
+  currentIndex = (idx + galleryItems.length) % galleryItems.length;
+
+  const item = galleryItems[currentIndex];
+  modalImg.src = item.src;
+  modalImg.alt = item.alt;
+
+  resetZoom();
+}
+
+function openModalFromThumb(clickedThumb) {
+  const visibleThumbs = buildGalleryItemsFromVisibleThumbs();
+  const idx = visibleThumbs.indexOf(clickedThumb);
+  currentIndex = Math.max(0, idx);
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
-  resetZoom();
+  setModalImageByIndex(currentIndex);
 }
 
 function closeModal() {
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
-
   modalImg.src = "";
   modalImg.alt = "";
-
   document.body.style.overflow = "";
   resetZoom();
 }
 
 // Open modal from thumbnails
 thumbs.forEach(t => {
-  t.addEventListener("click", () => {
-    const img = t.querySelector("img");
-    openModal(t.dataset.full || img.src, img.alt);
-  });
+  t.addEventListener("click", () => openModalFromThumb(t));
 });
 
-// Close by clicking backdrop or close button
+// Close by clicking backdrop / close button
 modal.addEventListener("click", (e) => {
   if (e.target?.dataset?.close === "true") closeModal();
 });
 
-// Close with ESC
+// Buttons navigation
+btnNext?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setModalImageByIndex(currentIndex + 1);
+});
+
+btnPrev?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setModalImageByIndex(currentIndex - 1);
+});
+
+// Keyboard navigation
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+  if (!modal.classList.contains("is-open")) return;
+
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowRight") setModalImageByIndex(currentIndex + 1);
+  if (e.key === "ArrowLeft") setModalImageByIndex(currentIndex - 1);
 });
 
 // Click image: toggle zoom (1x <-> 2x)
@@ -139,8 +186,8 @@ modalImg.addEventListener("pointerdown", (e) => {
   if (scale <= 1) return;
 
   isDragging = true;
-  startX = e.clientX - translateX;
-  startY = e.clientY - translateY;
+  dragStartX = e.clientX - translateX;
+  dragStartY = e.clientY - translateY;
 
   modalImg.setPointerCapture(e.pointerId);
   modalImg.style.cursor = "grabbing";
@@ -149,9 +196,8 @@ modalImg.addEventListener("pointerdown", (e) => {
 modalImg.addEventListener("pointermove", (e) => {
   if (!isDragging) return;
 
-  translateX = e.clientX - startX;
-  translateY = e.clientY - startY;
-
+  translateX = e.clientX - dragStartX;
+  translateY = e.clientY - dragStartY;
   applyTransform();
 });
 
@@ -170,10 +216,32 @@ modalImg.addEventListener("dblclick", (e) => {
   resetZoom();
 });
 
+// Swipe navigation (horizontal) when NOT zoomed
+let swipeStartX = 0;
+let swipeStartY = 0;
+
+modalViewer.addEventListener("pointerdown", (e) => {
+  swipeStartX = e.clientX;
+  swipeStartY = e.clientY;
+});
+
+modalViewer.addEventListener("pointerup", (e) => {
+  if (!modal.classList.contains("is-open")) return;
+  if (scale > 1) return; // don't swipe when zoomed
+
+  const dx = e.clientX - swipeStartX;
+  const dy = e.clientY - swipeStartY;
+
+  if (Math.abs(dx) > 60 && Math.abs(dy) < 50) {
+    if (dx < 0) setModalImageByIndex(currentIndex + 1); // swipe left -> next
+    else setModalImageByIndex(currentIndex - 1);        // swipe right -> prev
+  }
+});
+
 // ---- CONTACT FORM: mailto (static for GitHub Pages) ----
 const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
-
 const form = document.getElementById("contactForm");
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -199,4 +267,3 @@ ${message}
 
   window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
 });
-
