@@ -285,20 +285,46 @@ input:focus, textarea:focus{ border-color: #111; }
   inset: 0;
   background: rgba(0,0,0,.55);
 }
+
+/* Updated: fixed viewer size so the image fits the screen */
 .modal__content{
   position:relative;
   width: min(980px, calc(100% - 24px));
+  height: min(85vh, 720px);
   border-radius: 18px;
   overflow:hidden;
   background: #111;
   border: 1px solid rgba(255,255,255,.12);
   box-shadow: 0 30px 90px rgba(0,0,0,.35);
 }
-.modal__content img{
-  width:100%;
-  height:auto;
-  display:block;
+
+/* NEW: viewer wrapper for pan/zoom */
+.modal__viewer{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
+
+/* Updated: show FULL image (no distortion) */
+.modal__content img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* key: fit whole image */
+  display:block;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: zoom-in;
+}
+
+/* Cursor changes when zoomed */
+.modal__content img.is-zoomed{
+  cursor: grab;
+}
+.modal__content img.is-zoomed:active{
+  cursor: grabbing;
+}
+
 .modal__close{
   position:absolute;
   top: 10px;
@@ -310,6 +336,7 @@ input:focus, textarea:focus{ border-color: #111; }
   background: rgba(0,0,0,.35);
   color:#fff;
   cursor: pointer;
+  z-index: 2;
 }
 
 /* RESPONSIVE */
