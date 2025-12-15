@@ -30,14 +30,12 @@
         </p>
 
         <p>
-          <!-- EDIT: your description -->
           I’m a data and automation analyst with experience building reports, KPI tracking, and reproducible
           processes for operations and business teams. I focus on cleaning data, standardizing metrics, and
           turning analysis into clear deliverables for decision-making.
         </p>
 
         <p>
-          <!-- EDIT: short experience summary -->
           I’ve worked in corporate environments with reporting, performance analysis, data quality, and workflow
           optimization. My usual stack includes Python, SQL, Power BI, advanced Excel, Power Automate, and automation
           to reduce repetitive work.
@@ -114,7 +112,6 @@
       </p>
 
       <div class="gallery" id="galleryGrid">
-        <!-- Edit src, alt, and data-tags -->
         <button class="thumb" data-tags="python sql" data-full="assets/gallery-1.jpg" aria-label="Open image 1">
           <img src="assets/gallery-1.jpg" alt="Sample 1: analysis" loading="lazy" />
         </button>
@@ -147,7 +144,6 @@
         <div class="contact-card">
           <h3>Details</h3>
           <p class="muted">
-            <!-- EDIT: show email/phone here if you want -->
             You can also message me on LinkedIn.
           </p>
 
@@ -190,16 +186,21 @@
     </footer>
   </main>
 
-  <!-- MODAL / LIGHTBOX -->
+  <!-- MODAL / LIGHTBOX (updated for zoom/pan viewer) -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="modal__backdrop" data-close="true"></div>
     <div class="modal__content" role="dialog" aria-modal="true" aria-label="Full-size preview">
       <button class="modal__close" type="button" data-close="true" aria-label="Close">✕</button>
-      <img id="modalImg" alt="" />
+
+      <!-- NEW: viewer wrapper -->
+      <div class="modal__viewer" id="modalViewer">
+        <img id="modalImg" alt="" />
+      </div>
     </div>
   </div>
 
   <script src="script.js?v=2"></script>
 </body>
 </html>
+
 
