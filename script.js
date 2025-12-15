@@ -62,7 +62,7 @@ document.addEventListener("keydown", (e) => {
 
 // ---- FORMULARIO: mailto (estático para GitHub Pages) ----
 // EDITAR: pon aquí tu correo real:
-const YOUR_EMAIL = "tu_correo@ejemplo.com";
+const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
 
 const form = document.getElementById("contactForm");
 form.addEventListener("submit", (e) => {
@@ -85,4 +85,5 @@ ${message}
 
   // Abre el cliente de correo del visitante
   window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
+
 });
