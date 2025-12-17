@@ -15,6 +15,7 @@
     <nav class="nav">
       <a class="brand" href="#top">Luis Arias</a>
       <div class="navlinks">
+        <a href="#profile-charts">Profile</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
@@ -53,49 +54,48 @@
 
         <div class="mini">
           <div><span class="label">Location:</span> Costa Rica</div>
-          <div><span class="label">Email:</span> <a href="#contact">via contact form</a></div>
+          <div><span class="label">Email:</span> via contact form</div>
         </div>
       </div>
 
       <div class="hero__photo">
-        <img src="assets/profile.jpg" alt="Photo of Luis Rodolfo Arias Núñez" />
+        <img src="assets/profile.jpg"
+             alt="Photo of Luis Rodolfo Arias Núñez" />
       </div>
     </section>
 
     <hr class="divider" />
 
-    <!-- ================= Charts1 ================= -->
+    <!-- ================= PROFILE CHARTS ================= -->
     <section id="profile-charts" class="section">
       <h2>Professional Profile Overview</h2>
       <p class="muted">
         A visual summary of my skills and the tools I’ve used throughout my career.
       </p>
-    
-      <!-- RADARS -->
+
       <div class="charts-grid">
         <div class="chart-card">
           <h3>Hard Skills</h3>
           <canvas id="hardSkillsChart"></canvas>
         </div>
-    
+
         <div class="chart-card">
           <h3>Soft Skills</h3>
           <canvas id="softSkillsChart"></canvas>
         </div>
       </div>
-    
-      <!-- BARS -->
+
       <div class="chart-card chart-wide">
         <h3>Tools Used Over the Last 8 Years</h3>
         <canvas id="toolsTimelineChart"></canvas>
       </div>
     </section>
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <hr class="divider" />
+
     <!-- ================= PORTFOLIO ================= -->
     <section id="portfolio" class="section">
-      <h2>Work samples</h2>
+      <h2>Work Samples</h2>
       <p class="muted">Some links are pending and will be enabled soon.</p>
 
       <div class="cards">
@@ -122,7 +122,6 @@
 
     <!-- ================= GALLERY ================= -->
     <section id="gallery" class="section">
-
       <div class="section__row">
         <h2>Interactive Gallery</h2>
 
@@ -139,24 +138,41 @@
       </p>
 
       <div class="gallery" id="galleryGrid">
-
-        <!-- Example thumbs (add as many as you want) -->
-        <button class="thumb" data-tags="python sql" data-full="assets/gallery-1.jpg">
-          <img src="assets/gallery-1.jpg" alt="Python + SQL analysis" />
+        <button class="thumb"
+                data-tags="python sql"
+                data-full="assets/gallery-1.jpg"
+                aria-label="Open Python and SQL analysis">
+          <img src="assets/gallery-1.jpg"
+               alt="Python and SQL analysis"
+               loading="lazy" />
         </button>
 
-        <button class="thumb" data-tags="powerbi" data-full="assets/gallery-2.jpg">
-          <img src="assets/gallery-2.jpg" alt="Power BI dashboard" />
+        <button class="thumb"
+                data-tags="powerbi"
+                data-full="assets/gallery-2.jpg"
+                aria-label="Open Power BI dashboard">
+          <img src="assets/gallery-2.jpg"
+               alt="Power BI dashboard"
+               loading="lazy" />
         </button>
 
-        <button class="thumb" data-tags="python" data-full="assets/gallery-3.jpg">
-          <img src="assets/gallery-3.jpg" alt="Python chart" />
+        <button class="thumb"
+                data-tags="python"
+                data-full="assets/gallery-3.jpg"
+                aria-label="Open Python chart">
+          <img src="assets/gallery-3.jpg"
+               alt="Python chart"
+               loading="lazy" />
         </button>
 
-        <button class="thumb" data-tags="sql" data-full="assets/gallery-4.jpg">
-          <img src="assets/gallery-4.jpg" alt="SQL report" />
+        <button class="thumb"
+                data-tags="sql"
+                data-full="assets/gallery-4.jpg"
+                aria-label="Open SQL report">
+          <img src="assets/gallery-4.jpg"
+               alt="SQL report"
+               loading="lazy" />
         </button>
-
       </div>
     </section>
 
@@ -175,7 +191,9 @@
 
           <div class="contact-links">
             <a target="_blank" rel="noopener"
-               href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/">LinkedIn</a>
+               href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/">
+              LinkedIn
+            </a>
             <a href="#portfolio">View portfolio</a>
           </div>
         </div>
@@ -213,30 +231,28 @@
 
   </main>
 
-  <!-- ================= MODAL / LIGHTBOX ================= -->
+  <!-- ================= MODAL ================= -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="modal__backdrop" data-close="true"></div>
 
     <div class="modal__content" role="dialog" aria-modal="true">
-
       <button class="modal__close" type="button" data-close="true" aria-label="Close">✕</button>
 
-      <!-- Navigation -->
       <button class="modal__nav modal__prev" type="button" aria-label="Previous image">‹</button>
       <button class="modal__nav modal__next" type="button" aria-label="Next image">›</button>
 
-      <!-- Viewer -->
       <div class="modal__viewer" id="modalViewer">
         <img id="modalImg" alt="" />
       </div>
-
     </div>
   </div>
 
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
-
 
 
 
