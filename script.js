@@ -342,3 +342,4 @@ if (window.Chart) {
     }
   });
 }
+
