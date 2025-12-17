@@ -64,6 +64,36 @@
 
     <hr class="divider" />
 
+    <!-- ================= Charts1 ================= -->
+    <hr class="divider" />
+    <section id="profile-charts" class="section">
+      <h2>Professional Profile Overview</h2>
+      <p class="muted">
+        A visual summary of my skills and the tools I’ve used throughout my career.
+      </p>
+    
+      <!-- RADARS -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Hard Skills</h3>
+          <canvas id="hardSkillsChart"></canvas>
+        </div>
+    
+        <div class="chart-card">
+          <h3>Soft Skills</h3>
+          <canvas id="softSkillsChart"></canvas>
+        </div>
+      </div>
+    
+      <!-- BARS -->
+      <div class="chart-card chart-wide">
+        <h3>Tools Used Over the Last 8 Years</h3>
+        <canvas id="toolsTimelineChart"></canvas>
+      </div>
+    </section>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- ================= PORTFOLIO ================= -->
     <section id="portfolio" class="section">
       <h2>Work samples</h2>
@@ -207,5 +237,6 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
