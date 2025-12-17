@@ -267,3 +267,80 @@ ${message}
 
   window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
 });
+new Chart(document.getElementById("hardSkillsChart"), {
+  type: "radar",
+  data: {
+    labels: ["Data Analysis","Python","SQL","Power BI","Automation"],
+    datasets: [{
+      data: [9,8,8,8,9],
+      fill: true,
+      backgroundColor: "rgba(17,17,17,.15)",
+      borderColor: "#111",
+      borderWidth: 2
+    }]
+  },
+  options: radarOptions()
+});
+
+new Chart(document.getElementById("softSkillsChart"), {
+  type: "radar",
+  data: {
+    labels: [
+      "Communication",
+      "Problem Solving",
+      "Attention to Detail",
+      "Process Thinking",
+      "Autonomy"
+    ],
+    datasets: [{
+      data: [8,9,9,8,9],
+      fill: true,
+      backgroundColor: "rgba(17,17,17,.15)",
+      borderColor: "#111",
+      borderWidth: 2
+    }]
+  },
+  options: radarOptions()
+});
+function radarOptions(){
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      r: {
+        min: 0,
+        max: 10,
+        ticks: { stepSize: 2, backdropColor: "transparent" },
+        grid: { color: "#e8e8e8" },
+        angleLines: { color: "#e8e8e8" },
+        pointLabels: { color: "#111", font: { size: 12, weight: "600" } }
+      }
+    },
+    plugins: { legend: { display: false } }
+  };
+}
+new Chart(document.getElementById("toolsTimelineChart"), {
+  type: "bar",
+  data: {
+    labels: ["2017","2018","2019","2020","2021","2022","2023","2024"],
+    datasets: [
+      { label: "Excel", data: [7,8,8,7,6,6,5,5] },
+      { label: "CRM", data: [6,7,7,7,6,6,5,5] },
+      { label: "SQL", data: [2,3,4,5,6,7,8,8] },
+      { label: "Python", data: [0,1,2,3,6,7,8,9] },
+      { label: "Power Automate", data: [0,0,1,2,4,6,7,8] },
+      { label: "Power BI", data: [0,0,1,2,4,6,7,8] }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: { mode: "index", intersect: false }
+    },
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true, min: 0, max: 10 }
+    }
+  }
+});
