@@ -1,7 +1,13 @@
-// Year in footer
-document.getElementById("year").textContent = new Date().getFullYear();
+/* ================= UTILITIES ================= */
 
-// ---- GALLERY: filters ----
+// Year in footer
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
+
+/* ================= GALLERY FILTERS ================= */
+
 const chips = Array.from(document.querySelectorAll(".chip"));
 const thumbs = Array.from(document.querySelectorAll(".thumb"));
 
@@ -13,7 +19,7 @@ function setActiveChip(btn) {
 function filterGallery(tag) {
   thumbs.forEach(t => {
     const tags = (t.dataset.tags || "").split(/\s+/).filter(Boolean);
-    const show = tag === "all" ? true : tags.includes(tag);
+    const show = tag === "all" || tags.includes(tag);
     t.classList.toggle("is-hidden", !show);
   });
 }
@@ -25,39 +31,28 @@ chips.forEach(btn => {
   });
 });
 
-// ---- MODAL / Lightbox + Navigation + Zoom/Pan ----
+/* ================= MODAL / LIGHTBOX ================= */
+
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
 const modalViewer = document.getElementById("modalViewer");
-
 const btnPrev = document.querySelector(".modal__prev");
 const btnNext = document.querySelector(".modal__next");
 
-// Transform state (zoom/pan)
+let galleryItems = [];
+let currentIndex = 0;
+
+// Zoom / pan state
 let scale = 1;
 let translateX = 0;
 let translateY = 0;
-
 let isDragging = false;
 let dragStartX = 0;
 let dragStartY = 0;
 
-// Gallery navigation state
-let galleryItems = []; // [{ src, alt }]
-let currentIndex = 0;
-
 function applyTransform() {
-  modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-}
-
-function setZoomedUI(isZoomed) {
-  if (isZoomed) {
-    modalImg.classList.add("is-zoomed");
-    modalImg.style.cursor = "grab";
-  } else {
-    modalImg.classList.remove("is-zoomed");
-    modalImg.style.cursor = "zoom-in";
-  }
+  modalImg.style.transform =
+    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 }
 
 function resetZoom() {
@@ -65,20 +60,21 @@ function resetZoom() {
   translateX = 0;
   translateY = 0;
   modalImg.style.transform = "";
-  setZoomedUI(false);
+  modalImg.classList.remove("is-zoomed");
+  modalImg.style.cursor = "zoom-in";
 }
 
 function getVisibleThumbs() {
   return thumbs.filter(t => !t.classList.contains("is-hidden"));
 }
 
-function buildGalleryItemsFromVisibleThumbs() {
+function buildGalleryItems() {
   const visibleThumbs = getVisibleThumbs();
   galleryItems = visibleThumbs.map(t => {
     const img = t.querySelector("img");
     return {
       src: t.dataset.full || img.src,
-      alt: img.alt || "Full-size preview"
+      alt: img.alt || "Image preview"
     };
   });
   return visibleThumbs;
@@ -87,20 +83,17 @@ function buildGalleryItemsFromVisibleThumbs() {
 function setModalImageByIndex(idx) {
   if (!galleryItems.length) return;
 
-  // wrap-around
   currentIndex = (idx + galleryItems.length) % galleryItems.length;
-
   const item = galleryItems[currentIndex];
+
   modalImg.src = item.src;
   modalImg.alt = item.alt;
-
   resetZoom();
 }
 
-function openModalFromThumb(clickedThumb) {
-  const visibleThumbs = buildGalleryItemsFromVisibleThumbs();
-  const idx = visibleThumbs.indexOf(clickedThumb);
-  currentIndex = Math.max(0, idx);
+function openModalFromThumb(thumb) {
+  const visibleThumbs = buildGalleryItems();
+  currentIndex = Math.max(0, visibleThumbs.indexOf(thumb));
 
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
@@ -118,29 +111,29 @@ function closeModal() {
   resetZoom();
 }
 
-// Open modal from thumbnails
+/* Open modal */
 thumbs.forEach(t => {
   t.addEventListener("click", () => openModalFromThumb(t));
 });
 
-// Close by clicking backdrop / close button
-modal.addEventListener("click", (e) => {
+/* Close modal */
+modal.addEventListener("click", e => {
   if (e.target?.dataset?.close === "true") closeModal();
 });
 
-// Buttons navigation
-btnNext?.addEventListener("click", (e) => {
+/* Navigation buttons */
+btnNext?.addEventListener("click", e => {
   e.stopPropagation();
   setModalImageByIndex(currentIndex + 1);
 });
 
-btnPrev?.addEventListener("click", (e) => {
+btnPrev?.addEventListener("click", e => {
   e.stopPropagation();
   setModalImageByIndex(currentIndex - 1);
 });
 
-// Keyboard navigation
-document.addEventListener("keydown", (e) => {
+/* Keyboard navigation */
+document.addEventListener("keydown", e => {
   if (!modal.classList.contains("is-open")) return;
 
   if (e.key === "Escape") closeModal();
@@ -148,52 +141,50 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") setModalImageByIndex(currentIndex - 1);
 });
 
-// Click image: toggle zoom (1x <-> 2x)
-modalImg.addEventListener("click", (e) => {
-  e.stopPropagation();
+/* ================= ZOOM & PAN ================= */
 
+// Click toggle zoom
+modalImg.addEventListener("click", e => {
+  e.stopPropagation();
   if (scale === 1) {
     scale = 2;
-    setZoomedUI(true);
+    modalImg.classList.add("is-zoomed");
+    modalImg.style.cursor = "grab";
     applyTransform();
   } else {
     resetZoom();
   }
 });
 
-// Mouse wheel: smooth zoom (1x to 5x)
-modalViewer.addEventListener("wheel", (e) => {
+// Wheel zoom
+modalViewer.addEventListener("wheel", e => {
   if (!modal.classList.contains("is-open")) return;
   e.preventDefault();
 
-  const zoomIntensity = 0.12;
-  const direction = e.deltaY > 0 ? -1 : 1;
-  const nextScale = Math.min(5, Math.max(1, scale + direction * zoomIntensity));
-
-  scale = nextScale;
+  const delta = e.deltaY > 0 ? -0.15 : 0.15;
+  scale = Math.min(5, Math.max(1, scale + delta));
 
   if (scale === 1) {
     resetZoom();
-    return;
+  } else {
+    modalImg.classList.add("is-zoomed");
+    modalImg.style.cursor = "grab";
+    applyTransform();
   }
-
-  setZoomedUI(true);
-  applyTransform();
 }, { passive: false });
 
-// Drag to pan (only when zoomed)
-modalImg.addEventListener("pointerdown", (e) => {
+// Drag pan
+modalImg.addEventListener("pointerdown", e => {
   if (scale <= 1) return;
 
   isDragging = true;
   dragStartX = e.clientX - translateX;
   dragStartY = e.clientY - translateY;
-
   modalImg.setPointerCapture(e.pointerId);
   modalImg.style.cursor = "grabbing";
 });
 
-modalImg.addEventListener("pointermove", (e) => {
+modalImg.addEventListener("pointermove", e => {
   if (!isDragging) return;
 
   translateX = e.clientX - dragStartX;
@@ -201,108 +192,71 @@ modalImg.addEventListener("pointermove", (e) => {
   applyTransform();
 });
 
-function stopDragging() {
-  isDragging = false;
-  if (scale > 1) modalImg.style.cursor = "grab";
-}
-
-modalImg.addEventListener("pointerup", stopDragging);
-modalImg.addEventListener("pointercancel", stopDragging);
-modalImg.addEventListener("pointerleave", stopDragging);
-
-// Double click: reset zoom
-modalImg.addEventListener("dblclick", (e) => {
-  e.preventDefault();
-  resetZoom();
+["pointerup","pointerleave","pointercancel"].forEach(evt => {
+  modalImg.addEventListener(evt, () => {
+    isDragging = false;
+    if (scale > 1) modalImg.style.cursor = "grab";
+  });
 });
 
-// Swipe navigation (horizontal) when NOT zoomed
+/* Swipe navigation (only when not zoomed) */
 let swipeStartX = 0;
 let swipeStartY = 0;
 
-modalViewer.addEventListener("pointerdown", (e) => {
+modalViewer.addEventListener("pointerdown", e => {
   swipeStartX = e.clientX;
   swipeStartY = e.clientY;
 });
 
-modalViewer.addEventListener("pointerup", (e) => {
-  if (!modal.classList.contains("is-open")) return;
-  if (scale > 1) return; // don't swipe when zoomed
+modalViewer.addEventListener("pointerup", e => {
+  if (!modal.classList.contains("is-open") || scale > 1) return;
 
   const dx = e.clientX - swipeStartX;
   const dy = e.clientY - swipeStartY;
 
   if (Math.abs(dx) > 60 && Math.abs(dy) < 50) {
-    if (dx < 0) setModalImageByIndex(currentIndex + 1); // swipe left -> next
-    else setModalImageByIndex(currentIndex - 1);        // swipe right -> prev
+    dx < 0
+      ? setModalImageByIndex(currentIndex + 1)
+      : setModalImageByIndex(currentIndex - 1);
   }
 });
 
-// ---- CONTACT FORM: mailto (static for GitHub Pages) ----
-const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
+/* ================= CONTACT FORM ================= */
+
 const form = document.getElementById("contactForm");
+const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+if (form) {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
 
-  const data = new FormData(form);
-  const name = (data.get("name") || "").toString().trim();
-  const email = (data.get("email") || "").toString().trim();
-  const message = (data.get("message") || "").toString().trim();
+    const data = new FormData(form);
+    const name = data.get("name")?.trim();
+    const email = data.get("email")?.trim();
+    const message = data.get("message")?.trim();
 
-  if (!name || !email || !message) {
-    alert("Please fill out all fields before sending.");
-    return;
-  }
+    if (!name || !email || !message) {
+      alert("Please fill out all fields.");
+      return;
+    }
 
-  const subject = encodeURIComponent(`Website contact — ${name}`);
-  const body = encodeURIComponent(
+    const subject = encodeURIComponent(`Website contact — ${name}`);
+    const body = encodeURIComponent(
 `Name: ${name}
 Email: ${email}
 
 Message:
-${message}
-`
-  );
+${message}`
+    );
 
-  window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
-});
-new Chart(document.getElementById("hardSkillsChart"), {
-  type: "radar",
-  data: {
-    labels: ["Data Analysis","Python","SQL","Power BI","Automation"],
-    datasets: [{
-      data: [9,8,8,8,9],
-      fill: true,
-      backgroundColor: "rgba(17,17,17,.15)",
-      borderColor: "#111",
-      borderWidth: 2
-    }]
-  },
-  options: radarOptions()
-});
+    window.location.href =
+      `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
+  });
+}
 
-new Chart(document.getElementById("softSkillsChart"), {
-  type: "radar",
-  data: {
-    labels: [
-      "Communication",
-      "Problem Solving",
-      "Attention to Detail",
-      "Process Thinking",
-      "Autonomy"
-    ],
-    datasets: [{
-      data: [8,9,9,8,9],
-      fill: true,
-      backgroundColor: "rgba(17,17,17,.15)",
-      borderColor: "#111",
-      borderWidth: 2
-    }]
-  },
-  options: radarOptions()
-});
-function radarOptions(){
+/* ================= CHARTS ================= */
+
+function radarOptions() {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -313,34 +267,78 @@ function radarOptions(){
         ticks: { stepSize: 2, backdropColor: "transparent" },
         grid: { color: "#e8e8e8" },
         angleLines: { color: "#e8e8e8" },
-        pointLabels: { color: "#111", font: { size: 12, weight: "600" } }
+        pointLabels: {
+          color: "#111",
+          font: { size: 12, weight: "600" }
+        }
       }
     },
     plugins: { legend: { display: false } }
   };
 }
-new Chart(document.getElementById("toolsTimelineChart"), {
-  type: "bar",
-  data: {
-    labels: ["2017","2018","2019","2020","2021","2022","2023","2024"],
-    datasets: [
-      { label: "Excel", data: [7,8,8,7,6,6,5,5] },
-      { label: "CRM", data: [6,7,7,7,6,6,5,5] },
-      { label: "SQL", data: [2,3,4,5,6,7,8,8] },
-      { label: "Python", data: [0,1,2,3,6,7,8,9] },
-      { label: "Power Automate", data: [0,0,1,2,4,6,7,8] },
-      { label: "Power BI", data: [0,0,1,2,4,6,7,8] }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      tooltip: { mode: "index", intersect: false }
+
+if (window.Chart) {
+
+  new Chart(document.getElementById("hardSkillsChart"), {
+    type: "radar",
+    data: {
+      labels: ["Data Analysis","Python","SQL","Power BI","Automation"],
+      datasets: [{
+        data: [9,8,8,8,9],
+        fill: true,
+        backgroundColor: "rgba(17,17,17,.15)",
+        borderColor: "#111",
+        borderWidth: 2
+      }]
     },
-    scales: {
-      x: { stacked: true },
-      y: { stacked: true, min: 0, max: 10 }
+    options: radarOptions()
+  });
+
+  new Chart(document.getElementById("softSkillsChart"), {
+    type: "radar",
+    data: {
+      labels: [
+        "Communication",
+        "Problem Solving",
+        "Attention to Detail",
+        "Process Thinking",
+        "Autonomy"
+      ],
+      datasets: [{
+        data: [8,9,9,8,9],
+        fill: true,
+        backgroundColor: "rgba(17,17,17,.15)",
+        borderColor: "#111",
+        borderWidth: 2
+      }]
+    },
+    options: radarOptions()
+  });
+
+  new Chart(document.getElementById("toolsTimelineChart"), {
+    type: "bar",
+    data: {
+      labels: ["2017","2018","2019","2020","2021","2022","2023","2024"],
+      datasets: [
+        { label: "Excel", data: [7,8,8,7,6,6,5,5] },
+        { label: "CRM", data: [6,7,7,7,6,6,5,5] },
+        { label: "SQL", data: [2,3,4,5,6,7,8,8] },
+        { label: "Python", data: [0,1,2,3,6,7,8,9] },
+        { label: "Power Automate", data: [0,0,1,2,4,6,7,8] },
+        { label: "Power BI", data: [0,0,1,2,4,6,7,8] }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: { mode: "index", intersect: false }
+      },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, min: 0, max: 10 }
+      }
     }
-  }
-});
+  });
+
+}
