@@ -287,6 +287,8 @@ if (window.Chart) {
   });
 
   // Bar chart: keep compact (key fix)
+
+
   new Chart(document.getElementById("toolsTimelineChart"), {
     type: "bar",
     data: {
@@ -300,18 +302,35 @@ if (window.Chart) {
         { label: "Power BI", data: [0,0,1,2,4,6,7,8] }
       ]
     },
+
     options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 2.2,
-      plugins: {
-        tooltip: { mode: "index", intersect: false },
-        legend: { position: "bottom" }
-      },
-      scales: {
-        x: { stacked: true },
-        y: { stacked: true, min: 0, max: 10 }
-      }
+        responsive: true,
+        maintainAspectRatio: false,
+
+        // <-- esto evita recortes de labels/ticks/legend
+        layout: {
+            padding: { top: 18, right: 12, bottom: 8, left: 16 }
+        },
+
+        plugins: {
+            legend: {
+            position: "top"
+            },
+            tooltip: { mode: "index", intersect: false }
+        },
+
+        scales: {
+            x: { stacked: true },
+            y: {
+            stacked: true,
+            min: 0,
+            max: 10,
+
+            // <-- esto evita que el "10" de arriba se corte
+            grace: "5%",
+            ticks: { padding: 6 }
+            }
+        }
     }
   });
 }
