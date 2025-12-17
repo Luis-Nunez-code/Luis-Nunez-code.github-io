@@ -1,13 +1,8 @@
-/* ================= UTILITIES ================= */
-
 // Year in footer
 const yearEl = document.getElementById("year");
-if (yearEl) {
-  yearEl.textContent = new Date().getFullYear();
-}
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 /* ================= GALLERY FILTERS ================= */
-
 const chips = Array.from(document.querySelectorAll(".chip"));
 const thumbs = Array.from(document.querySelectorAll(".thumb"));
 
@@ -32,7 +27,6 @@ chips.forEach(btn => {
 });
 
 /* ================= MODAL / LIGHTBOX ================= */
-
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
 const modalViewer = document.getElementById("modalViewer");
@@ -51,14 +45,15 @@ let dragStartX = 0;
 let dragStartY = 0;
 
 function applyTransform() {
-  modalImg.style.transform =
-    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  if (!modalImg) return;
+  modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 }
 
 function resetZoom() {
   scale = 1;
   translateX = 0;
   translateY = 0;
+  if (!modalImg) return;
   modalImg.style.transform = "";
   modalImg.classList.remove("is-zoomed");
   modalImg.style.cursor = "zoom-in";
@@ -81,7 +76,7 @@ function buildGalleryItems() {
 }
 
 function setModalImageByIndex(idx) {
-  if (!galleryItems.length) return;
+  if (!galleryItems.length || !modalImg) return;
 
   currentIndex = (idx + galleryItems.length) % galleryItems.length;
   const item = galleryItems[currentIndex];
@@ -95,29 +90,29 @@ function openModalFromThumb(thumb) {
   const visibleThumbs = buildGalleryItems();
   currentIndex = Math.max(0, visibleThumbs.indexOf(thumb));
 
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
+  modal?.classList.add("is-open");
+  modal?.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
   setModalImageByIndex(currentIndex);
 }
 
 function closeModal() {
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-  modalImg.src = "";
-  modalImg.alt = "";
+  modal?.classList.remove("is-open");
+  modal?.setAttribute("aria-hidden", "true");
+  if (modalImg) {
+    modalImg.src = "";
+    modalImg.alt = "";
+  }
   document.body.style.overflow = "";
   resetZoom();
 }
 
 /* Open modal */
-thumbs.forEach(t => {
-  t.addEventListener("click", () => openModalFromThumb(t));
-});
+thumbs.forEach(t => t.addEventListener("click", () => openModalFromThumb(t)));
 
 /* Close modal */
-modal.addEventListener("click", e => {
+modal?.addEventListener("click", e => {
   if (e.target?.dataset?.close === "true") closeModal();
 });
 
@@ -126,7 +121,6 @@ btnNext?.addEventListener("click", e => {
   e.stopPropagation();
   setModalImageByIndex(currentIndex + 1);
 });
-
 btnPrev?.addEventListener("click", e => {
   e.stopPropagation();
   setModalImageByIndex(currentIndex - 1);
@@ -134,17 +128,14 @@ btnPrev?.addEventListener("click", e => {
 
 /* Keyboard navigation */
 document.addEventListener("keydown", e => {
-  if (!modal.classList.contains("is-open")) return;
-
+  if (!modal?.classList.contains("is-open")) return;
   if (e.key === "Escape") closeModal();
   if (e.key === "ArrowRight") setModalImageByIndex(currentIndex + 1);
   if (e.key === "ArrowLeft") setModalImageByIndex(currentIndex - 1);
 });
 
 /* ================= ZOOM & PAN ================= */
-
-// Click toggle zoom
-modalImg.addEventListener("click", e => {
+modalImg?.addEventListener("click", e => {
   e.stopPropagation();
   if (scale === 1) {
     scale = 2;
@@ -156,9 +147,8 @@ modalImg.addEventListener("click", e => {
   }
 });
 
-// Wheel zoom
-modalViewer.addEventListener("wheel", e => {
-  if (!modal.classList.contains("is-open")) return;
+modalViewer?.addEventListener("wheel", e => {
+  if (!modal?.classList.contains("is-open")) return;
   e.preventDefault();
 
   const delta = e.deltaY > 0 ? -0.15 : 0.15;
@@ -167,16 +157,14 @@ modalViewer.addEventListener("wheel", e => {
   if (scale === 1) {
     resetZoom();
   } else {
-    modalImg.classList.add("is-zoomed");
-    modalImg.style.cursor = "grab";
+    modalImg?.classList.add("is-zoomed");
+    if (modalImg) modalImg.style.cursor = "grab";
     applyTransform();
   }
 }, { passive: false });
 
-// Drag pan
-modalImg.addEventListener("pointerdown", e => {
+modalImg?.addEventListener("pointerdown", e => {
   if (scale <= 1) return;
-
   isDragging = true;
   dragStartX = e.clientX - translateX;
   dragStartY = e.clientY - translateY;
@@ -184,18 +172,17 @@ modalImg.addEventListener("pointerdown", e => {
   modalImg.style.cursor = "grabbing";
 });
 
-modalImg.addEventListener("pointermove", e => {
+modalImg?.addEventListener("pointermove", e => {
   if (!isDragging) return;
-
   translateX = e.clientX - dragStartX;
   translateY = e.clientY - dragStartY;
   applyTransform();
 });
 
 ["pointerup","pointerleave","pointercancel"].forEach(evt => {
-  modalImg.addEventListener(evt, () => {
+  modalImg?.addEventListener(evt, () => {
     isDragging = false;
-    if (scale > 1) modalImg.style.cursor = "grab";
+    if (scale > 1 && modalImg) modalImg.style.cursor = "grab";
   });
 });
 
@@ -203,59 +190,53 @@ modalImg.addEventListener("pointermove", e => {
 let swipeStartX = 0;
 let swipeStartY = 0;
 
-modalViewer.addEventListener("pointerdown", e => {
+modalViewer?.addEventListener("pointerdown", e => {
   swipeStartX = e.clientX;
   swipeStartY = e.clientY;
 });
 
-modalViewer.addEventListener("pointerup", e => {
-  if (!modal.classList.contains("is-open") || scale > 1) return;
+modalViewer?.addEventListener("pointerup", e => {
+  if (!modal?.classList.contains("is-open") || scale > 1) return;
 
   const dx = e.clientX - swipeStartX;
   const dy = e.clientY - swipeStartY;
 
   if (Math.abs(dx) > 60 && Math.abs(dy) < 50) {
-    dx < 0
-      ? setModalImageByIndex(currentIndex + 1)
-      : setModalImageByIndex(currentIndex - 1);
+    dx < 0 ? setModalImageByIndex(currentIndex + 1)
+           : setModalImageByIndex(currentIndex - 1);
   }
 });
 
 /* ================= CONTACT FORM ================= */
-
 const form = document.getElementById("contactForm");
 const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
 
-if (form) {
-  form.addEventListener("submit", e => {
-    e.preventDefault();
+form?.addEventListener("submit", e => {
+  e.preventDefault();
 
-    const data = new FormData(form);
-    const name = data.get("name")?.trim();
-    const email = data.get("email")?.trim();
-    const message = data.get("message")?.trim();
+  const data = new FormData(form);
+  const name = (data.get("name") || "").toString().trim();
+  const email = (data.get("email") || "").toString().trim();
+  const message = (data.get("message") || "").toString().trim();
 
-    if (!name || !email || !message) {
-      alert("Please fill out all fields.");
-      return;
-    }
+  if (!name || !email || !message) {
+    alert("Please fill out all fields.");
+    return;
+  }
 
-    const subject = encodeURIComponent(`Website contact — ${name}`);
-    const body = encodeURIComponent(
+  const subject = encodeURIComponent(`Website contact — ${name}`);
+  const body = encodeURIComponent(
 `Name: ${name}
 Email: ${email}
 
 Message:
 ${message}`
-    );
+  );
 
-    window.location.href =
-      `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
-  });
-}
+  window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
+});
 
 /* ================= CHARTS ================= */
-
 function radarOptions() {
   return {
     responsive: true,
@@ -267,10 +248,7 @@ function radarOptions() {
         ticks: { stepSize: 2, backdropColor: "transparent" },
         grid: { color: "#e8e8e8" },
         angleLines: { color: "#e8e8e8" },
-        pointLabels: {
-          color: "#111",
-          font: { size: 12, weight: "600" }
-        }
+        pointLabels: { color: "#111", font: { size: 12, weight: "600" } }
       }
     },
     plugins: { legend: { display: false } }
@@ -278,7 +256,6 @@ function radarOptions() {
 }
 
 if (window.Chart) {
-
   new Chart(document.getElementById("hardSkillsChart"), {
     type: "radar",
     data: {
@@ -297,13 +274,7 @@ if (window.Chart) {
   new Chart(document.getElementById("softSkillsChart"), {
     type: "radar",
     data: {
-      labels: [
-        "Communication",
-        "Problem Solving",
-        "Attention to Detail",
-        "Process Thinking",
-        "Autonomy"
-      ],
+      labels: ["Communication","Problem Solving","Attention to Detail","Process Thinking","Autonomy"],
       datasets: [{
         data: [8,9,9,8,9],
         fill: true,
@@ -315,6 +286,7 @@ if (window.Chart) {
     options: radarOptions()
   });
 
+  // Bar chart: keep compact (key fix)
   new Chart(document.getElementById("toolsTimelineChart"), {
     type: "bar",
     data: {
@@ -330,9 +302,11 @@ if (window.Chart) {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
+      aspectRatio: 2.2,
       plugins: {
-        tooltip: { mode: "index", intersect: false }
+        tooltip: { mode: "index", intersect: false },
+        legend: { position: "bottom" }
       },
       scales: {
         x: { stacked: true },
@@ -340,5 +314,4 @@ if (window.Chart) {
       }
     }
   });
-
 }
