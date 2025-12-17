@@ -256,6 +256,7 @@ function radarOptions() {
 }
 
 if (window.Chart) {
+  // Hard skills radar
   new Chart(document.getElementById("hardSkillsChart"), {
     type: "radar",
     data: {
@@ -271,6 +272,7 @@ if (window.Chart) {
     options: radarOptions()
   });
 
+  // Soft skills radar
   new Chart(document.getElementById("softSkillsChart"), {
     type: "radar",
     data: {
@@ -286,51 +288,57 @@ if (window.Chart) {
     options: radarOptions()
   });
 
-  // Bar chart: keep compact (key fix)
+  // Your palette (Inferno-ish)
+  const toolColors = [
+    "#003f5c",
+    "#444e86",
+    "#955196",
+    "#dd5182",
+    "#ff6e54",
+    "#ffa600"
+  ];
 
-
+  // Stacked bars: DO NOT cap at 10
   new Chart(document.getElementById("toolsTimelineChart"), {
     type: "bar",
     data: {
       labels: ["2017","2018","2019","2020","2021","2022","2023","2024"],
       datasets: [
-        { label: "Excel", data: [7,8,8,7,6,6,5,5] },
-        { label: "CRM", data: [6,7,7,7,6,6,5,5] },
-        { label: "SQL", data: [2,3,4,5,6,7,8,8] },
-        { label: "Python", data: [0,1,2,3,6,7,8,9] },
-        { label: "Power Automate", data: [0,0,1,2,4,6,7,8] },
-        { label: "Power BI", data: [0,0,1,2,4,6,7,8] }
+        { label: "Excel",          data: [7,8,8,7,6,6,5,5], backgroundColor: toolColors[0] },
+        { label: "CRM",            data: [6,7,7,7,6,6,5,5], backgroundColor: toolColors[1] },
+        { label: "SQL",            data: [2,3,4,5,6,7,8,8], backgroundColor: toolColors[2] },
+        { label: "Python",         data: [0,1,2,3,6,7,8,9], backgroundColor: toolColors[3] },
+        { label: "Power Automate", data: [0,0,1,2,4,6,7,8], backgroundColor: toolColors[4] },
+        { label: "Power BI",       data: [0,0,1,2,4,6,7,8], backgroundColor: toolColors[5] }
       ]
     },
-
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
+      responsive: true,
+      maintainAspectRatio: false,
 
-        // <-- esto evita recortes de labels/ticks/legend
-        layout: {
-            padding: { top: 18, right: 12, bottom: 8, left: 16 }
-        },
+      // Prevent clipping of ticks/labels/legend
+      layout: {
+        padding: { top: 18, right: 12, bottom: 8, left: 26 }
+      },
 
-        plugins: {
-            legend: {
-            position: "top"
-            },
-            tooltip: { mode: "index", intersect: false }
-        },
+      plugins: {
+        legend: { position: "top" },
+        tooltip: { mode: "index", intersect: false }
+      },
 
-        scales: {
-            x: { stacked: true },
-            y: {
-            stacked: true,
-            min: 0,
-            max: 10,
+      scales: {
+        x: { stacked: true },
+        y: {
+          stacked: true,
+          beginAtZero: true,
 
-            // <-- esto evita que el "10" de arriba se corte
-            grace: "5%",
-            ticks: { padding: 6 }
-            }
+          // Let Chart.js choose, but hint an upper range
+          suggestedMax: 60,
+
+          grace: "6%",
+          ticks: { padding: 8, stepSize: 10 }
         }
+      }
     }
   });
 }
