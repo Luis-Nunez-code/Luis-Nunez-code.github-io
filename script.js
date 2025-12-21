@@ -1,242 +1,9 @@
-// Year in footer
+// ================= YEAR IN FOOTER =================
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-/* ================= GALLERY FILTERS ================= */
-const chips = Array.from(document.querySelectorAll(".chip"));
-const thumbs = Array.from(document.querySelectorAll(".thumb"));
+// ================= CHART.JS (RESTORE YOUR GRAPHS) =================
 
-function setActiveChip(btn) {
-  chips.forEach(c => c.classList.remove("is-active"));
-  btn.classList.add("is-active");
-}
-
-function filterGallery(tag) {
-  thumbs.forEach(t => {
-    const tags = (t.dataset.tags || "").split(/\s+/).filter(Boolean);
-    const show = tag === "all" || tags.includes(tag);
-    t.classList.toggle("is-hidden", !show);
-  });
-}
-
-chips.forEach(btn => {
-  btn.addEventListener("click", () => {
-    setActiveChip(btn);
-    filterGallery(btn.dataset.filter);
-  });
-});
-
-/* ================= MODAL / LIGHTBOX ================= */
-const modal = document.getElementById("modal");
-const modalImg = document.getElementById("modalImg");
-const modalViewer = document.getElementById("modalViewer");
-const btnPrev = document.querySelector(".modal__prev");
-const btnNext = document.querySelector(".modal__next");
-
-let galleryItems = [];
-let currentIndex = 0;
-
-// Zoom / pan state
-let scale = 1;
-let translateX = 0;
-let translateY = 0;
-let isDragging = false;
-let dragStartX = 0;
-let dragStartY = 0;
-
-function applyTransform() {
-  if (!modalImg) return;
-  modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-}
-
-function resetZoom() {
-  scale = 1;
-  translateX = 0;
-  translateY = 0;
-  if (!modalImg) return;
-  modalImg.style.transform = "";
-  modalImg.classList.remove("is-zoomed");
-  modalImg.style.cursor = "zoom-in";
-}
-
-function getVisibleThumbs() {
-  return thumbs.filter(t => !t.classList.contains("is-hidden"));
-}
-
-function buildGalleryItems() {
-  const visibleThumbs = getVisibleThumbs();
-  galleryItems = visibleThumbs.map(t => {
-    const img = t.querySelector("img");
-    return {
-      src: t.dataset.full || img.src,
-      alt: img.alt || "Image preview"
-    };
-  });
-  return visibleThumbs;
-}
-
-function setModalImageByIndex(idx) {
-  if (!galleryItems.length || !modalImg) return;
-
-  currentIndex = (idx + galleryItems.length) % galleryItems.length;
-  const item = galleryItems[currentIndex];
-
-  modalImg.src = item.src;
-  modalImg.alt = item.alt;
-  resetZoom();
-}
-
-function openModalFromThumb(thumb) {
-  const visibleThumbs = buildGalleryItems();
-  currentIndex = Math.max(0, visibleThumbs.indexOf(thumb));
-
-  modal?.classList.add("is-open");
-  modal?.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-
-  setModalImageByIndex(currentIndex);
-}
-
-function closeModal() {
-  modal?.classList.remove("is-open");
-  modal?.setAttribute("aria-hidden", "true");
-  if (modalImg) {
-    modalImg.src = "";
-    modalImg.alt = "";
-  }
-  document.body.style.overflow = "";
-  resetZoom();
-}
-
-/* Open modal */
-thumbs.forEach(t => t.addEventListener("click", () => openModalFromThumb(t)));
-
-/* Close modal */
-modal?.addEventListener("click", e => {
-  if (e.target?.dataset?.close === "true") closeModal();
-});
-
-/* Navigation buttons */
-btnNext?.addEventListener("click", e => {
-  e.stopPropagation();
-  setModalImageByIndex(currentIndex + 1);
-});
-btnPrev?.addEventListener("click", e => {
-  e.stopPropagation();
-  setModalImageByIndex(currentIndex - 1);
-});
-
-/* Keyboard navigation */
-document.addEventListener("keydown", e => {
-  if (!modal?.classList.contains("is-open")) return;
-  if (e.key === "Escape") closeModal();
-  if (e.key === "ArrowRight") setModalImageByIndex(currentIndex + 1);
-  if (e.key === "ArrowLeft") setModalImageByIndex(currentIndex - 1);
-});
-
-/* ================= ZOOM & PAN ================= */
-modalImg?.addEventListener("click", e => {
-  e.stopPropagation();
-  if (scale === 1) {
-    scale = 2;
-    modalImg.classList.add("is-zoomed");
-    modalImg.style.cursor = "grab";
-    applyTransform();
-  } else {
-    resetZoom();
-  }
-});
-
-modalViewer?.addEventListener("wheel", e => {
-  if (!modal?.classList.contains("is-open")) return;
-  e.preventDefault();
-
-  const delta = e.deltaY > 0 ? -0.15 : 0.15;
-  scale = Math.min(5, Math.max(1, scale + delta));
-
-  if (scale === 1) {
-    resetZoom();
-  } else {
-    modalImg?.classList.add("is-zoomed");
-    if (modalImg) modalImg.style.cursor = "grab";
-    applyTransform();
-  }
-}, { passive: false });
-
-modalImg?.addEventListener("pointerdown", e => {
-  if (scale <= 1) return;
-  isDragging = true;
-  dragStartX = e.clientX - translateX;
-  dragStartY = e.clientY - translateY;
-  modalImg.setPointerCapture(e.pointerId);
-  modalImg.style.cursor = "grabbing";
-});
-
-modalImg?.addEventListener("pointermove", e => {
-  if (!isDragging) return;
-  translateX = e.clientX - dragStartX;
-  translateY = e.clientY - dragStartY;
-  applyTransform();
-});
-
-["pointerup","pointerleave","pointercancel"].forEach(evt => {
-  modalImg?.addEventListener(evt, () => {
-    isDragging = false;
-    if (scale > 1 && modalImg) modalImg.style.cursor = "grab";
-  });
-});
-
-/* Swipe navigation (only when not zoomed) */
-let swipeStartX = 0;
-let swipeStartY = 0;
-
-modalViewer?.addEventListener("pointerdown", e => {
-  swipeStartX = e.clientX;
-  swipeStartY = e.clientY;
-});
-
-modalViewer?.addEventListener("pointerup", e => {
-  if (!modal?.classList.contains("is-open") || scale > 1) return;
-
-  const dx = e.clientX - swipeStartX;
-  const dy = e.clientY - swipeStartY;
-
-  if (Math.abs(dx) > 60 && Math.abs(dy) < 50) {
-    dx < 0 ? setModalImageByIndex(currentIndex + 1)
-           : setModalImageByIndex(currentIndex - 1);
-  }
-});
-
-/* ================= CONTACT FORM ================= */
-const form = document.getElementById("contactForm");
-const YOUR_EMAIL = "luisrodolfoarias@outlook.es";
-
-form?.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const data = new FormData(form);
-  const name = (data.get("name") || "").toString().trim();
-  const email = (data.get("email") || "").toString().trim();
-  const message = (data.get("message") || "").toString().trim();
-
-  if (!name || !email || !message) {
-    alert("Please fill out all fields.");
-    return;
-  }
-
-  const subject = encodeURIComponent(`Website contact — ${name}`);
-  const body = encodeURIComponent(
-`Name: ${name}
-Email: ${email}
-
-Message:
-${message}`
-  );
-
-  window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
-});
-
-/* ================= CHARTS ================= */
 function radarOptions() {
   return {
     responsive: true,
@@ -343,3 +110,261 @@ if (window.Chart) {
   });
 }
 
+// ================= GALLERY FILTERS =================
+const chips = Array.from(document.querySelectorAll("#gallery .chip"));
+const thumbs = Array.from(document.querySelectorAll("#gallery .thumb"));
+
+function setActiveChip(btn) {
+  chips.forEach(c => c.classList.remove("is-active"));
+  btn.classList.add("is-active");
+}
+
+function filterGallery(tag) {
+  thumbs.forEach(t => {
+    const tags = (t.dataset.tags || "").split(/\s+/).filter(Boolean);
+    const show = tag === "all" || tags.includes(tag);
+    t.classList.toggle("is-hidden", !show);
+  });
+}
+
+chips.forEach(btn => {
+  btn.addEventListener("click", () => {
+    setActiveChip(btn);
+    filterGallery(btn.dataset.filter);
+  });
+});
+
+// ================= MODAL / LIGHTBOX =================
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+const modalViewer = document.getElementById("modalViewer");
+const btnPrev = document.querySelector(".modal__prev");
+const btnNext = document.querySelector(".modal__next");
+
+let galleryItems = [];
+let currentIndex = 0;
+
+// Zoom / pan state
+let scale = 1;
+let translateX = 0;
+let translateY = 0;
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+
+// ✅ evita que el click “fantasma” al soltar un drag haga reset
+let didDrag = false;
+let downX = 0;
+let downY = 0;
+
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
+
+function applyTransform() {
+  if (!modalImg) return;
+  modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+}
+
+function resetZoom() {
+  scale = 1;
+  translateX = 0;
+  translateY = 0;
+  didDrag = false;
+
+  if (!modalImg) return;
+  modalImg.style.transform = "";
+  modalImg.classList.remove("is-zoomed");
+  modalImg.style.cursor = "zoom-in";
+}
+
+function getVisibleThumbs() {
+  return thumbs.filter(t => !t.classList.contains("is-hidden"));
+}
+
+function buildGalleryItems() {
+  const visibleThumbs = getVisibleThumbs();
+  galleryItems = visibleThumbs
+    .map(t => {
+      const img = t.querySelector("img");
+      if (!img) return null;
+      return {
+        thumbEl: t,
+        src: t.dataset.full || img.dataset.full || img.src,
+        alt: img.alt || ""
+      };
+    })
+    .filter(Boolean);
+}
+
+function setModalImageByIndex(idx) {
+  buildGalleryItems();
+  if (!galleryItems.length || !modalImg) return;
+
+  currentIndex = (idx + galleryItems.length) % galleryItems.length;
+  const item = galleryItems[currentIndex];
+
+  modalImg.src = item.src;
+  modalImg.alt = item.alt;
+
+  // Al cambiar de imagen, reset zoom/pan
+  resetZoom();
+}
+
+function openModalFromThumb(thumbEl) {
+  buildGalleryItems();
+  const idx = galleryItems.findIndex(it => it.thumbEl === thumbEl);
+  currentIndex = idx >= 0 ? idx : 0;
+
+  if (!modal) return;
+  modal.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+
+  setModalImageByIndex(currentIndex);
+}
+
+function closeModal() {
+  if (!modal) return;
+  modal.classList.remove("is-open");
+  document.body.style.overflow = "";
+  resetZoom();
+}
+
+// Open modal
+thumbs.forEach(t => t.addEventListener("click", () => openModalFromThumb(t)));
+
+// Close modal only if data-close="true"
+modal?.addEventListener("click", e => {
+  const target = e.target;
+  if (target?.dataset?.close === "true") closeModal();
+});
+
+// Navigation
+btnNext?.addEventListener("click", e => {
+  e.stopPropagation();
+  setModalImageByIndex(currentIndex + 1);
+});
+btnPrev?.addEventListener("click", e => {
+  e.stopPropagation();
+  setModalImageByIndex(currentIndex - 1);
+});
+
+// Keyboard
+document.addEventListener("keydown", e => {
+  if (!modal?.classList.contains("is-open")) return;
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowRight") setModalImageByIndex(currentIndex + 1);
+  if (e.key === "ArrowLeft") setModalImageByIndex(currentIndex - 1);
+});
+
+// ================= ZOOM & PAN =================
+
+// Prevent native drag
+modalImg?.addEventListener("dragstart", e => e.preventDefault());
+
+// Click toggle zoom (pero ignorar si hubo drag)
+modalImg?.addEventListener("click", e => {
+  e.stopPropagation();
+
+  if (didDrag) {
+    didDrag = false;
+    return;
+  }
+
+  if (scale === 1) {
+    scale = 2;
+    modalImg.classList.add("is-zoomed");
+    modalImg.style.cursor = "grab";
+    applyTransform();
+  } else {
+    resetZoom();
+  }
+});
+
+// Wheel zoom
+modalViewer?.addEventListener(
+  "wheel",
+  e => {
+    if (!modal?.classList.contains("is-open")) return;
+
+    e.preventDefault();
+    const factor = e.deltaY > 0 ? 0.9 : 1.1;
+    const newScale = clamp(scale * factor, 1, 6);
+
+    scale = newScale;
+
+    if (scale === 1) {
+      translateX = 0;
+      translateY = 0;
+      modalImg?.classList.remove("is-zoomed");
+      if (modalImg) modalImg.style.cursor = "zoom-in";
+    } else {
+      modalImg?.classList.add("is-zoomed");
+      if (modalImg) modalImg.style.cursor = isDragging ? "grabbing" : "grab";
+    }
+
+    applyTransform();
+  },
+  { passive: false }
+);
+
+// Pan only when zoomed
+modalImg?.addEventListener("pointerdown", e => {
+  if (scale <= 1) return;
+
+  isDragging = true;
+  didDrag = false;
+
+  downX = e.clientX;
+  downY = e.clientY;
+
+  dragStartX = e.clientX - translateX;
+  dragStartY = e.clientY - translateY;
+
+  modalImg.setPointerCapture(e.pointerId);
+  modalImg.style.cursor = "grabbing";
+
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+modalImg?.addEventListener("pointermove", e => {
+  if (!isDragging) return;
+
+  const dx = e.clientX - downX;
+  const dy = e.clientY - downY;
+
+  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) didDrag = true;
+
+  translateX = e.clientX - dragStartX;
+  translateY = e.clientY - dragStartY;
+
+  applyTransform();
+});
+
+["pointerup", "pointerleave", "pointercancel"].forEach(evt => {
+  modalImg?.addEventListener(evt, () => {
+    isDragging = false;
+    if (scale > 1 && modalImg) modalImg.style.cursor = "grab";
+  });
+});
+
+// ================= SWIPE (only when NOT zoomed) =================
+let swipeStartX = 0;
+let swipeStartY = 0;
+
+modalViewer?.addEventListener("pointerdown", e => {
+  swipeStartX = e.clientX;
+  swipeStartY = e.clientY;
+});
+
+modalViewer?.addEventListener("pointerup", e => {
+  if (!modal?.classList.contains("is-open") || scale > 1) return;
+
+  const dx = e.clientX - swipeStartX;
+  const dy = e.clientY - swipeStartY;
+
+  if (Math.abs(dx) > 60 && Math.abs(dy) < 50) {
+    dx < 0 ? setModalImageByIndex(currentIndex + 1) : setModalImageByIndex(currentIndex - 1);
+  }
+});
