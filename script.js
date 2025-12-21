@@ -307,9 +307,9 @@ if (window.Chart) {
         { label: "Excel",          data: [7,8,8,7,6,6,5,5], backgroundColor: toolColors[0] },
         { label: "CRM",            data: [6,7,7,7,6,6,5,5], backgroundColor: toolColors[1] },
         { label: "SQL",            data: [2,3,4,5,6,7,8,8], backgroundColor: toolColors[2] },
-        { label: "Python",         data: [0,1,2,3,6,7,8,9], backgroundColor: toolColors[3] },
-        { label: "Power Automate", data: [0,0,1,2,4,6,7,8], backgroundColor: toolColors[4] },
-        { label: "Power BI",       data: [0,0,1,2,4,6,7,8], backgroundColor: toolColors[5] }
+        { label: "Python",         data: [0,1,2,3,6,7,8,12], backgroundColor: toolColors[3] },
+        { label: "Power Automate", data: [0,0,1,2,4,6,7,10], backgroundColor: toolColors[4] },
+        { label: "Power BI",       data: [0,0,1,2,4,6,7,10], backgroundColor: toolColors[5] }
       ]
     },
     options: {
