@@ -85,7 +85,7 @@ if (window.Chart) {
 
       // Prevent clipping of ticks/labels/legend
       layout: {
-        padding: { top: 18, right: 12, bottom: 8, left: 26 }
+        padding: { top: 26, right: 14, bottom: 24, left: 26 }
       },
 
       plugins: {

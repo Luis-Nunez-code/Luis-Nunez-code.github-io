@@ -214,6 +214,7 @@ h1{
   height: 360px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .chart-card h3{
@@ -224,13 +225,16 @@ h1{
 .chart-card canvas{
   flex: 1;
   width: 100% !important;
-  height: 100% !important;
+  /* Let Chart.js control the height; prevents canvas from overflowing the card */
+  height: auto !important;
+  min-height: 0;
+  display: block;
 }
 
-/* Keep the stacked bar compact */
+/* Keep the stacked bar readable (legend + axis labels) */
 .chart-wide{
-  height: 300px;
-  max-height: 300px;
+  height: 420px;
+  max-height: 420px;
   margin-top: 18px;
 }
 .chart-wide canvas{
@@ -450,5 +454,5 @@ input:focus, textarea:focus{ border-color: #111; }
   .charts-grid{ grid-template-columns: 1fr; }
 
   .chart-card{ height: 320px; }
-  .chart-wide{ height: 260px; max-height: 260px; }
+  .chart-wide{ height: 360px; max-height: 360px; }
 }
