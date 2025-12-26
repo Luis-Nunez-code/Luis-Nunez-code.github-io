@@ -376,6 +376,8 @@ input:focus, textarea:focus{ border-color: #111; }
   position: relative;
   width: min(1100px, 96vw);
   height: 92vh;
+  height: 92dvh;
+  max-height: 92svh;
   border-radius: 18px;
   background: #111;
   border: 1px solid rgba(255,255,255,.12);
@@ -1021,5 +1023,83 @@ a.btn:hover,
   .starburst::after{
     animation: none !important;
     opacity: 0 !important;
+  }
+}
+
+/* =======================================================================
+   Mobile stability / reduce flicker (GitHub Pages / Mobile browsers)
+   ======================================================================= */
+
+/* ===== Mobile stability / reduce flicker ===== */
+
+/* Keep the animated background on its own composited layer */
+.space-bg,
+.space-bg::before,
+.space-bg::after,
+.space-bg .stars,
+.shooting-star,
+.starburst{
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Isolate background paints from the rest of the page */
+.space-bg{
+  contain: paint;
+}
+
+/* Mobile: reduce expensive effects that can cause flicker during scroll */
+@media (max-width: 640px){
+  /* Backdrop blur on sticky headers can flicker on some mobile browsers */
+  .header{
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,.98);
+  }
+
+  /* Blur on large gradients is expensive on mobile GPUs */
+  .space-bg::before{
+    filter: none !important;
+    opacity: .65;
+  }
+
+  /* Reduce star layers on mobile (keeps the look, prevents repaints) */
+  .space-bg .stars4,
+  .space-bg .stars5,
+  .space-bg .stars6,
+  .space-bg .starsBig,
+  .space-bg .starburst{
+    display: none !important;
+  }
+
+  /* Your default is 200% (2). A bit lower on mobile keeps it pretty + stable */
+  :root{
+    --starScale: 1.6;
+  }
+}
+
+/* Contact iframe stability */
+#contact iframe{
+  width: 100%;
+  border: 0;
+  display: block;
+  min-height: 820px;
+  height: 85vh;
+  height: 85dvh;
+}
+@media (max-width: 640px){
+  #contact iframe{
+    min-height: 900px;
+    height: 92dvh;
+  }
+}
+
+/* Respect reduced motion across all animated background layers */
+@media (prefers-reduced-motion: reduce){
+  .space-bg .stars,
+  .shooting-star,
+  .starburst{
+    animation: none !important;
   }
 }
