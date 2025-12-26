@@ -85,7 +85,7 @@ if (window.Chart) {
 
       // Prevent clipping of ticks/labels/legend
       layout: {
-        padding: { top: 26, right: 14, bottom: 24, left: 26 }
+        padding: { top: 18, right: 12, bottom: 8, left: 26 }
       },
 
       plugins: {
@@ -368,3 +368,105 @@ modalViewer?.addEventListener("pointerup", e => {
     dx < 0 ? setModalImageByIndex(currentIndex + 1) : setModalImageByIndex(currentIndex - 1);
   }
 });
+// ================= MINI SCROLL CHART (HEADER) =================
+(function initMiniScrollChart(){
+  const canvas = document.getElementById("scrollChart");
+  if (!canvas || typeof Chart === "undefined") return;
+
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  function getScrollProgress(){
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+
+    // Progreso por píxeles (no depende del final de la página)
+    const startOffsetPx = 0;    // ignora los primeros px si quieres (ej: 200)
+    const fillEveryPx   = 2600; // px necesarios para "llenar" la mini gráfica
+
+    const raw = (scrollTop - startOffsetPx) / Math.max(1, fillEveryPx);
+    return clamp(raw, 0, 1);
+  }
+
+  // Dataset base (puedes cambiarlo por datos reales si quieres)
+  const N = 60;
+  const labels = Array.from({length: N}, (_, i) => i + 1);
+  const lineAll = labels.map(i => Math.round(20 + 10*Math.sin(i/6) + i*0.35));
+  const barsAll = labels.map(i => Math.max(0, Math.round(8 + 6*Math.cos(i/7))));
+
+  const maxY = Math.max(...lineAll, ...barsAll) * 1.15;
+
+  let rafId = null;
+const scrollChart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          type: "line",
+          label: "Line",
+          data: [],
+          borderWidth: 2,
+      borderColor: "#7c3aed",
+          pointRadius: 0,
+          tension: 0.35
+        },
+        {
+          type: "bar",
+          label: "Bars",
+          data: [],
+          borderWidth: 0,
+      backgroundColor: "#f97316",
+          barPercentage: 0.9,
+          categoryPercentage: 1.0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      scales: {
+        x: { display: false },
+        y: { display: false, beginAtZero: true, min: 0, max: maxY }
+      }
+    }
+  });
+
+  function update(p){
+    const k = Math.max(1, Math.round(p * N));
+
+    const line = Array(N).fill(null);
+    const bars = Array(N).fill(null);
+
+    for (let i = 0; i < k; i++){
+      line[i] = lineAll[i];
+      bars[i] = barsAll[i];
+    }
+
+    scrollChart.data.datasets[0].data = line;
+    scrollChart.data.datasets[1].data = bars;
+    scrollChart.update("none");
+  }
+
+  function apply(){
+    rafId = null;
+    const p = getScrollProgress();
+    update(p);
+  }
+
+  function onScroll(){
+    if (!rafId) rafId = requestAnimationFrame(apply);
+  }
+
+  // init
+  update(getScrollProgress());
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    update(getScrollProgress());
+  });
+})();
