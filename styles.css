@@ -262,7 +262,21 @@ h1{
   background: rgba(255,255,255,.14);
   border-color: rgba(255,255,255,.28);
 }
-.chip:hover{ background:#f2f2f2; color: var(--text); }
+.chip:hover{
+  background: #ffffff;
+  color: #0b0b0d; /* texto oscuro cuando el fondo es claro */
+  border-color: rgba(255,255,255,.45);
+}
+
+.chip:focus-visible{
+  outline: 2px solid rgba(255,255,255,.55);
+  outline-offset: 2px;
+}
+
+.chip.is-active{
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.40);
+}
 .chip.is-active{
   background:#111;
   border-color:#111;
