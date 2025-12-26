@@ -13,9 +13,9 @@ function radarOptions() {
         min: 0,
         max: 10,
         ticks: { stepSize: 2, backdropColor: "transparent" },
-        grid: { color: "#e8e8e8" },
-        angleLines: { color: "#e8e8e8" },
-        pointLabels: { color: "#111", font: { size: 12, weight: "600" } }
+        grid: { color: "#00000025" },
+        angleLines: { color: "#00000025" },
+        pointLabels: { color: "#111111ef", font: { size: 12, weight: "600" } }
       }
     },
     plugins: { legend: { display: false } }
