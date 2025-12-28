@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sales Dashboard (ECharts) — Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --muted:#9fb0d0;
+      --text:#e8eeff;
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(74, 112, 255,.15), transparent 55%),
+                  radial-gradient(900px 600px at 80% 20%, rgba(255, 111, 0,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:28px 18px 10px;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    h1{margin:0;font-size:26px;letter-spacing:.2px}
+    .sub{margin-top:6px;color:var(--muted);line-height:1.45}
+    .wrap{max-width:1200px;margin:0 auto;padding:14px 18px 40px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      overflow:hidden;
+    }
+    .filters{grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end}
+    .field{
+      display:flex; flex-direction:column; gap:6px;
+      min-width: 170px;
+    }
+    label{font-size:12px;color:var(--muted)}
+    select,input{
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 10px;
+      outline:none;
+    }
+    select:focus,input:focus{border-color:rgba(74,112,255,.55)}
+    button{
+      background:rgba(74,112,255,.18);
+      color:var(--text);
+      border:1px solid rgba(74,112,255,.35);
+      border-radius:12px;
+      padding:10px 14px;
+      cursor:pointer;
+      transition:.15s transform ease, .15s opacity ease;
+    }
+    button:hover{transform:translateY(-1px)}
+    .kpis{grid-column:1 / -1; display:grid; grid-template-columns: repeat(5, 1fr); gap:14px}
+    .kpi{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+    .kpi .label{font-size:12px;color:var(--muted)}
+    .kpi .value{margin-top:6px;font-size:22px;font-weight:700}
+    .kpi .hint{margin-top:4px;font-size:12px;color:rgba(232,238,255,.75)}
+    .chart{height:320px}
+    .span-6{grid-column: span 6}
+    .span-4{grid-column: span 4}
+    .span-8{grid-column: span 8}
+    .span-12{grid-column: 1 / -1}
+    .footer{margin-top:14px;color:var(--muted);font-size:12px}
+    @media (max-width: 980px){
+      .kpis{grid-template-columns: repeat(2, 1fr)}
+      .span-6,.span-4,.span-8{grid-column: 1 / -1}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sales Dashboard</h1>
+    <div class="sub">
+      Interactive portfolio dashboard built with <b>ECharts</b>. Includes KPIs, trends, and breakdowns by category, channel, payment method, and products.
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <div class="card filters">
+        <div class="field">
+          <label for="year">Year</label>
+          <select id="year"></select>
+        </div>
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category"></select>
+        </div>
+        <div class="field">
+          <label for="saleType">Sale Type</label>
+          <select id="saleType"></select>
+        </div>
+        <div class="field">
+          <label for="payMethod">Payment Method</label>
+          <select id="payMethod"></select>
+        </div>
+        <div class="field">
+          <label for="startDate">Start date</label>
+          <input id="startDate" type="date"/>
+        </div>
+        <div class="field">
+          <label for="endDate">End date</label>
+          <input id="endDate" type="date"/>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;margin-left:auto">
+          <button id="apply">Apply</button>
+          <button id="reset" style="opacity:.85">Reset</button>
+        </div>
+      </div>
+
+      <div class="card span-12">
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Net Revenue</div>
+            <div class="value" id="kpiRevenue">—</div>
+            <div class="hint">Sales price × quantity − discounts</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Units Sold</div>
+            <div class="value" id="kpiUnits">—</div>
+            <div class="hint">Total quantity</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Orders</div>
+            <div class="value" id="kpiOrders">—</div>
+            <div class="hint">Row count (transactions)</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Profit</div>
+            <div class="value" id="kpiProfit">—</div>
+            <div class="hint">Net revenue − cost</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Profit Margin</div>
+            <div class="value" id="kpiMargin">—</div>
+            <div class="hint">Profit ÷ net revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card span-8">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:650">Net Revenue by Month</div>
+          <div style="font-size:12px;color:var(--muted)">Trend</div>
+        </div>
+        <div id="chartTrend" class="chart"></div>
+      </div>
+
+      <div class="card span-4">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:650">Sales Split</div>
+          <div style="font-size:12px;color:var(--muted)">In-Store vs Online</div>
+        </div>
+        <div id="chartSaleType" class="chart"></div>
+      </div>
+
+      <div class="card span-6">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:650">Net Revenue by Category</div>
+          <div style="font-size:12px;color:var(--muted)">Ranking</div>
+        </div>
+        <div id="chartCategory" class="chart"></div>
+      </div>
+
+      <div class="card span-6">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:650">Net Revenue by Payment Method</div>
+          <div style="font-size:12px;color:var(--muted)">Composition</div>
+        </div>
+        <div id="chartPayment" class="chart"></div>
+      </div>
+
+      <div class="card span-12">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:650">Top Products (by Net Revenue)</div>
+          <div style="font-size:12px;color:var(--muted)">Top 10</div>
+        </div>
+        <div id="chartProducts" style="height:360px"></div>
+        <div class="footer">
+          Tip: This page is static and GitHub Pages-friendly. Data is loaded from <code>data.json</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const fmtMoney = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const fmtNum = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
+  const fmtPct = new Intl.NumberFormat(undefined, { style: 'percent', maximumFractionDigits: 1 });
+
+  let raw = [];
+  let charts = {};
+
+  function unique(arr){ return Array.from(new Set(arr)).sort(); }
+
+  function groupSum(rows, keyFn, valFn){
+    const m = new Map();
+    for (const r of rows){
+      const k = keyFn(r);
+      const v = valFn(r) || 0;
+      m.set(k, (m.get(k) || 0) + v);
+    }
+    return m;
+  }
+
+  function parseDate(d){ return new Date(d + "T00:00:00"); }
+
+  function applyFilters(){
+    const year = document.getElementById('year').value;
+    const category = document.getElementById('category').value;
+    const saleType = document.getElementById('saleType').value;
+    const payMethod = document.getElementById('payMethod').value;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    return raw.filter(r => {
+      if (year !== 'All' && String(r.year) !== year) return false;
+      if (category !== 'All' && r.CATEGORY !== category) return false;
+      if (saleType !== 'All' && r.SALE_TYPE !== saleType) return false;
+      if (payMethod !== 'All' && r.PAYMENT_METHOD !== payMethod) return false;
+
+      if (startDate){
+        if (parseDate(r.date) < parseDate(startDate)) return false;
+      }
+      if (endDate){
+        if (parseDate(r.date) > parseDate(endDate)) return false;
+      }
+      return true;
+    });
+  }
+
+  function setKpis(rows){
+    const netRevenue = rows.reduce((a,r)=>a + (r.net_revenue||0), 0);
+    const units = rows.reduce((a,r)=>a + (r.QUANTITY||0), 0);
+    const orders = rows.length;
+    const profit = rows.reduce((a,r)=>a + (r.profit||0), 0);
+    const margin = netRevenue ? (profit/netRevenue) : 0;
+
+    document.getElementById('kpiRevenue').textContent = fmtMoney.format(netRevenue);
+    document.getElementById('kpiUnits').textContent = fmtNum.format(units);
+    document.getElementById('kpiOrders').textContent = fmtNum.format(orders);
+    document.getElementById('kpiProfit').textContent = fmtMoney.format(profit);
+    document.getElementById('kpiMargin').textContent = fmtPct.format(margin);
+  }
+
+  function renderTrend(rows){
+    const m = groupSum(rows, r=>r.month, r=>r.net_revenue);
+    const months = Array.from(m.keys()).sort(); // YYYY-MM already sortable
+    const vals = months.map(k => +m.get(k).toFixed(2));
+
+    charts.trend.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 50, right: 20, top: 20, bottom: 40 },
+      xAxis: { type: 'category', data: months },
+      yAxis: { type: 'value' },
+      series: [{
+        type: 'line',
+        smooth: true,
+        data: vals,
+        areaStyle: { opacity: 0.12 }
+      }]
+    }, true);
+  }
+
+  function renderSaleType(rows){
+    const m = groupSum(rows, r=>r.SALE_TYPE, r=>r.net_revenue);
+    const data = Array.from(m.entries()).map(([name,value])=>({name, value}));
+    charts.saleType.setOption({
+      tooltip: { trigger: 'item' },
+      legend: { bottom: 0, textStyle:{color:'#9fb0d0'} },
+      series: [{
+        type: 'pie',
+        radius: ['40%','70%'],
+        avoidLabelOverlap: true,
+        label: { color: '#e8eeff' },
+        data
+      }]
+    }, true);
+  }
+
+  function renderCategory(rows){
+    const m = groupSum(rows, r=>r.CATEGORY, r=>r.net_revenue);
+    const entries = Array.from(m.entries()).sort((a,b)=>b[1]-a[1]);
+    const cats = entries.map(e=>e[0]);
+    const vals = entries.map(e=>+e[1].toFixed(2));
+
+    charts.category.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 120, right: 20, top: 20, bottom: 30 },
+      xAxis: { type: 'value' },
+      yAxis: { type: 'category', data: cats },
+      series: [{
+        type: 'bar',
+        data: vals
+      }]
+    }, true);
+  }
+
+  function renderPayment(rows){
+    const m = groupSum(rows, r=>r.PAYMENT_METHOD, r=>r.net_revenue);
+    const entries = Array.from(m.entries()).sort((a,b)=>b[1]-a[1]);
+    const names = entries.map(e=>e[0]);
+    const vals = entries.map(e=>+e[1].toFixed(2));
+
+    charts.payment.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 60, right: 20, top: 20, bottom: 70 },
+      xAxis: { type: 'category', data: names, axisLabel:{ rotate: 20 } },
+      yAxis: { type: 'value' },
+      series: [{
+        type: 'bar',
+        data: vals
+      }]
+    }, true);
+  }
+
+  function renderProducts(rows){
+    const m = groupSum(rows, r=>`${r.PRODUCT_ID} — ${r.PRODUCT_NAME}`, r=>r.net_revenue);
+    const entries = Array.from(m.entries()).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    const names = entries.map(e=>e[0]).reverse();
+    const vals = entries.map(e=>+e[1].toFixed(2)).reverse();
+
+    charts.products.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 140, right: 20, top: 20, bottom: 30 },
+      xAxis: { type: 'value' },
+      yAxis: { type: 'category', data: names, axisLabel:{ width: 130, overflow:'truncate' } },
+      series: [{
+        type: 'bar',
+        data: vals
+      }]
+    }, true);
+  }
+
+  function renderAll(){
+    const rows = applyFilters();
+    setKpis(rows);
+    renderTrend(rows);
+    renderSaleType(rows);
+    renderCategory(rows);
+    renderPayment(rows);
+    renderProducts(rows);
+  }
+
+  function initCharts(){
+    charts.trend = echarts.init(document.getElementById('chartTrend'));
+    charts.saleType = echarts.init(document.getElementById('chartSaleType'));
+    charts.category = echarts.init(document.getElementById('chartCategory'));
+    charts.payment = echarts.init(document.getElementById('chartPayment'));
+    charts.products = echarts.init(document.getElementById('chartProducts'));
+
+    window.addEventListener('resize', () => {
+      Object.values(charts).forEach(c => c && c.resize());
+    });
+  }
+
+  function setDropdown(id, values){
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const optAll = document.createElement('option');
+    optAll.value = 'All'; optAll.textContent = 'All';
+    el.appendChild(optAll);
+    for (const v of values){
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      el.appendChild(o);
+    }
+  }
+
+  function setDateDefaults(){
+    const dates = raw.map(r=>r.date).sort();
+    const min = dates[0], max = dates[dates.length-1];
+    const start = document.getElementById('startDate');
+    const end = document.getElementById('endDate');
+    start.value = min;
+    end.value = max;
+  }
+
+  async function main(){
+    const res = await fetch('./data.json');
+    raw = await res.json();
+
+    initCharts();
+
+    // dropdowns
+    setDropdown('year', unique(raw.map(r=>String(r.year))).sort());
+    setDropdown('category', unique(raw.map(r=>r.CATEGORY)));
+    setDropdown('saleType', unique(raw.map(r=>r.SALE_TYPE)));
+    setDropdown('payMethod', unique(raw.map(r=>r.PAYMENT_METHOD)));
+
+    setDateDefaults();
+
+    document.getElementById('apply').addEventListener('click', renderAll);
+    document.getElementById('reset').addEventListener('click', () => {
+      document.getElementById('year').value = 'All';
+      document.getElementById('category').value = 'All';
+      document.getElementById('saleType').value = 'All';
+      document.getElementById('payMethod').value = 'All';
+      setDateDefaults();
+      renderAll();
+    });
+
+    renderAll();
+  }
+
+  main().catch(err => {
+    console.error(err);
+    alert('Failed to load data.json. If you opened the file directly, run a local server (instructions below).');
+  });
+</script>
+
+<!--
+How to run locally:
+  1) Open a terminal in this folder
+  2) python -m http.server 8000
+  3) Visit http://localhost:8000
+
+How to publish on GitHub Pages:
+  - Put index.html + data.json in a repo (root or /docs)
+  - Enable GitHub Pages in repo settings
+-->
+</body>
+</html>
