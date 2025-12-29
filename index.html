@@ -4,7 +4,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-BHC7JLT2L5');
 </script>
 
@@ -37,7 +36,7 @@
     <div class="starburst b1"></div>
     <div class="starburst b2"></div>
     <div class="starburst b3"></div>
-    
+
     <div class="stars starsBig"></div>
   </div>
 
@@ -47,15 +46,14 @@
       <a class="brand" href="#top">Luis Arias</a>
       <div class="navright">
         <div class="navlinks">
-        <a href="#portfolio">Portfolio</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#contact">Contact</a>
-      </div>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#contact">Contact</a>
+        </div>
         <div class="scroll-mini-chart">
           <canvas id="scrollChart" aria-label="Scroll progress chart"></canvas>
         </div>
       </div>
-
     </nav>
   </header>
 
@@ -67,17 +65,19 @@
         <h1>Luis Rodolfo Arias Núñez</h1>
 
         <p class="subtitle">
-          Data Analytics · Python · SQL · Power BI · Automation
+          Data Analytics · Automation · Business Intelligence
         </p>
 
         <p>
-          I’m a data and automation analyst with experience building reports, KPI tracking,
-          and reproducible processes for business and operations teams.
+          I am a data and automation analyst with strong experience supporting business and operations teams through data-driven decision making. My work focuses on transforming raw data into clear, reliable, and actionable insights, using a combination of analytics, reporting, and process automation.
         </p>
 
         <p>
-          My stack includes Python, SQL, Power BI, advanced Excel, Power Query,
-          and Power Automate to reduce repetitive work and improve data quality.
+          I have extensive experience building KPI frameworks, automated reports, and reproducible data workflows that improve data quality, reduce manual effort, and increase operational visibility. I collaborate closely with stakeholders to ensure that data solutions align with real business needs, particularly in sales operations, forecasting, and performance tracking.
+        </p>
+
+        <p>
+          My technical stack includes Python, SQL, Power BI, advanced Excel, Power Query, and Power Automate, which I use together to design end-to-end analytical solutions, from data extraction and cleaning to visualization and automation. I am especially motivated by projects that bridge technical execution with business impact, helping teams work more efficiently and make informed decisions with confidence.
         </p>
 
         <div class="cta-row">
@@ -134,6 +134,224 @@
 
     <hr class="divider" />
 
+    <!-- ================= TOOL TIMELINE (DESKTOP ONLY) ================= -->
+    <section id="tool-timeline" class="section tool-timeline">
+      <h2>Tools I use</h2>
+      <p class="muted tool-timeline__muted">
+        A quick visual story of how I use each tool.
+      </p>
+
+      <div class="timeline">
+
+        <!-- Python -->
+        <article class="timeline-item">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Automation of repetitive reporting</li>
+              <li>Data analysis and exploration</li>
+              <li>Predictions / modeling experiments</li>
+              <li>Statistics</li>
+              <li>Machine learning</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/Python-logo-notext.svg.png" alt="Python logo" />
+            </div>
+            <div class="timeline-arrow" aria-hidden="true"></div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">Python language</p>
+            <p>Python is a programming language that lets you work quickly and integrate systems more effectively.</p>
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+kpi = df.groupby("month")["sales"].sum()
+print(kpi.tail())
+            </code></pre>
+          </div>
+        </article>
+
+        <!-- SQL -->
+        <article class="timeline-item">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Storing and structuring data</li>
+              <li>Cleaning and transformations</li>
+              <li>Consulting / querying datasets</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/Sql_data_base_with_logo.png" alt="SQL logo" />
+            </div>
+            <div class="timeline-arrow" aria-hidden="true"></div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">SQL language</p>
+            <p>Structured Query Language (SQL) is a domain-specific, standardized programming language used to interact with relational database management systems (RDBMS) such as MySQL, SQL Server, IBM Db2, PostgreSQL and Oracle Database.</p>
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+SELECT
+  customer_type,
+  SUM(sales) AS total_sales
+FROM sales_table
+WHERE year = 2025
+GROUP BY customer_type
+ORDER BY total_sales DESC;
+            </code></pre>
+          </div>
+        </article>
+
+        <!-- Excel -->
+        <article class="timeline-item">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Fast KPI checks</li>
+              <li>Ad-hoc analysis</li>
+              <li>Business-friendly deliverables</li>
+              <li>Data cleaning and normalization</li>
+              <li>Data preparation for BI and automation tools</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/microsoft-excel.png" alt="Microsoft Excel logo" />
+            </div>
+            <div class="timeline-arrow" aria-hidden="true"></div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">Microsoft Excel</p>
+            <p>Microsoft Excel is the undisputed leading spreadsheet application, renowned for its power to organize and analyze complex data, create charts, and automate tasks using functions and formulas.</p>
+
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+=LET(
+  rng, A2:A500,
+  FILTER(rng, rng<>"")
+)
+            </code></pre>
+          </div>
+        </article>
+
+        <!-- Power Automate -->
+        <article class="timeline-item">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Process automation</li>
+              <li>Notifications & approvals</li>
+              <li>Reducing manual tasks</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/microsoft-power-automate.png" alt="Power Automate logo" />
+            </div>
+            <div class="timeline-arrow" aria-hidden="true"></div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">Microsoft Power Automate</p>
+            <p>It is a Microsoft automation platform that allows you to create workflows to automate repetitive tasks between applications and services, both in the cloud and on the desktop.</p>
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+Trigger: New email arrives
+→ Condition: has attachment?
+→ Action: Save file to SharePoint
+→ Action: Send Teams notification
+            </code></pre>
+          </div>
+        </article>
+
+        <!-- Power BI -->
+        <article class="timeline-item">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Dashboards & KPI tracking</li>
+              <li>Data modeling</li>
+              <li>Interactive reporting</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/free-power-bi-logo-icon-svg-download-png-2701891.png" alt="Power BI logo" />
+            </div>
+            <div class="timeline-arrow" aria-hidden="true"></div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">Microsoft Power BI</p>
+            <p>It is a Microsoft business analytics platform that allows you to transform raw data into visually appealing and interactive information, facilitating data-driven decision-making for business users.</p>
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+Total Sales :=
+CALCULATE(
+  SUM(Sales[Amount]),
+  Sales[Status] = "Closed Won"
+)
+            </code></pre>
+          </div>
+        </article>
+
+        <!-- Tableau -->
+        <article class="timeline-item timeline-item--last">
+          <div class="timeline-left">
+            <h3 class="timeline-title">Objectives</h3>
+            <ul class="timeline-list">
+              <li>Interactive visual storytelling</li>
+              <li>Fast exploration</li>
+              <li>Shareable dashboards</li>
+            </ul>
+          </div>
+
+          <div class="timeline-center">
+            <div class="timeline-node">
+              <img class="tool-logo" src="assets/Tableau_Logo.png" alt="Tableau logo" />
+            </div>
+          </div>
+
+          <div class="timeline-right">
+            <p class="timeline-text">Tableau</p>
+            <p>A leading visual analytics and business intelligence (BI) platform that enables users of all levels to connect, visualize, and analyze data from diverse sources to create engaging dashboards and charts.</p>
+          </div>
+
+          <div class="timeline-code">
+            <pre class="codebox"><code data-type>
+IF [Sales] > 0 THEN "Positive"
+ELSE "Check"
+END
+            </code></pre>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
     <!-- ================= PORTFOLIO ================= -->
     <section id="portfolio" class="section">
       <h2>Work samples</h2>
@@ -145,7 +363,6 @@
           <div class="card__title">PythonCharts</div>
           <div class="card__desc">KPI indicators, charts, and visualizations.</div>
         </a>
-
 
         <a class="card" target="_blank" rel="noopener"
            href="https://colab.research.google.com/drive/1sm4PMYCc8aUCr-gIEdus_hoLnFA4LRjb#scrollTo=rhwpnF3wwXLn">
@@ -181,7 +398,6 @@
 
     <!-- ================= GALLERY ================= -->
     <section id="gallery" class="section">
-
       <div class="section__row">
         <h2>Interactive Gallery</h2>
 
@@ -225,11 +441,113 @@
         <button class="thumb" data-tags="python" data-full="assets/gallery-8.jpg">
           <img src="assets/gallery-8.jpg" alt="Python chart" />
         </button>
-        
       </div>
     </section>
 
     <hr class="divider" />
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ================= BEYOND WORK / GALLERY ================= -->
+    <section id="beyond-work" class="section">
+
+      <h2>Beyond Work</h2>
+
+      <p class="muted">
+        Beyond data analytics and automation, I value activities that foster creativity,
+        balance, and perspective. Art and animals play an important role in how I disconnect,
+        stay curious, and approach problem-solving.
+      </p>
+
+      <div class="beyond-grid">
+        <div class="beyond-card">
+          <h3>Art & Creativity</h3>
+          <p>
+            Visual expression and creative projects help me develop a broader perspective,
+            recognize patterns, and think beyond conventional solutions.
+          </p>
+        </div>
+
+        <div class="beyond-card">
+          <h3>Animals & Well-being</h3>
+          <p>
+            Spending time with animals helps me stay grounded and focused, supporting
+            mental clarity and long-term performance.
+          </p>
+        </div>
+      </div>
+
+      <div class="gallery-wrapper">
+        <p class="muted gallery-note">
+          A small visual glimpse into my creative interests and personal balance.
+        </p>
+
+        <div class="bw-carousel" id="beyondCarousel" aria-label="Beyond Work gallery">
+          <button class="bw-nav bw-prev" type="button" aria-label="Previous">‹</button>
+
+          <div class="bw-viewport">
+            <div class="bw-track">
+              <button class="bw-item" type="button" data-full="assets/personal/1.jpg">
+                <img src="assets/personal/1.jpg" alt="Art related image" />
+              </button>
+
+              <button class="bw-item" type="button" data-full="assets/personal/2.jpg">
+                <img src="assets/personal/2.jpg" alt="Animals related image" />
+              </button>
+
+              <button class="bw-item" type="button" data-full="assets/personal/3.jpg">
+                <img src="assets/personal/3.jpg" alt="Creative project" />
+              </button>
+
+              <button class="bw-item" type="button" data-full="assets/personal/4.jpg">
+                <img src="assets/personal/4.jpg" alt="Animals" />
+              </button>
+              <button class="bw-item" type="button" data-full="assets/personal/5.jpg">
+                <img src="assets/personal/5.jpg" alt="Animals" />
+              </button>   
+              <button class="bw-item" type="button" data-full="assets/personal/6.jpeg">
+                <img src="assets/personal/6.jpeg" alt="Animals" />
+              </button>              
+              <button class="bw-item" type="button" data-full="assets/personal/7.jpeg">
+                <img src="assets/personal/7.jpeg" alt="Animals" />
+              </button>              
+
+
+            </div>
+          </div>
+
+          <button class="bw-nav bw-next" type="button" aria-label="Next">›</button>
+        </div>
+      </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- ================= CONTACT ================= -->
     <section id="contact" class="section">
@@ -243,13 +561,18 @@
           </p>
 
           <div class="contact-links">
+            <a href="mailto:luisrodolfoarias@outlook.es">
+              luisrodolfoarias@outlook.es
+            </a>
+
             <a target="_blank" rel="noopener"
-               href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/">LinkedIn</a>
+              href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/">
+              LinkedIn
+            </a>
+
             <a href="#portfolio">View portfolio</a>
           </div>
         </div>
-
-
 
         <iframe
           src="https://docs.google.com/forms/d/e/1FAIpQLSdLP0oHZkQbjUn98hhUY3ZIqIaH668_2aW3t097R5RQraXNxw/viewform?embedded=true"
@@ -258,10 +581,6 @@
           loading="lazy"
           allowfullscreen>
         </iframe>
-
-
-
-
       </div>
     </section>
 
@@ -292,5 +611,176 @@
   <!-- ================= SCRIPTS ================= -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
+
+  <!-- Typing + Highlight (SAFE) -->
+  <script>
+  (function () {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const blocks = document.querySelectorAll("#tool-timeline code[data-type]");
+    if (!blocks.length) return;
+
+    function detectLang(full) {
+      const up = full.toUpperCase();
+      if (up.includes("SELECT") || up.includes("FROM") || up.includes("GROUP BY")) return "sql";
+      if (full.includes("CALCULATE") || full.includes(":=")) return "dax";
+      if (up.includes("IF") && up.includes("THEN") && up.includes("END")) return "tableau";
+      if (full.trim().startsWith("=") || full.includes("LET(")) return "excel";
+      return "python";
+    }
+
+    function setFixedHeight(pre, fullText) {
+      const lines = fullText.split("\n").length;
+      const px = Math.ceil(lines * 1.6 * 13 + 14 * 2 + 18); // font 13px + padding
+      const clamped = Math.max(140, Math.min(px, 260));     // 140-260px
+      pre.style.setProperty("--codeH", clamped + "px");
+    }
+
+    function highlight(code, lang) {
+      const kw = {
+        python: new Set(["import","from","as","def","return","if","else","elif","for","while","in","and","or","not","print","class","try","except","with","lambda","True","False","None"]),
+        sql: new Set(["SELECT","FROM","WHERE","GROUP","BY","ORDER","DESC","ASC","JOIN","LEFT","RIGHT","INNER","OUTER","ON","AS","SUM","COUNT","AVG","MIN","MAX","DISTINCT","CASE","WHEN","THEN","ELSE","END"]),
+        dax: new Set(["CALCULATE","SUM","FILTER","ALL","RELATED","DIVIDE","IF","SWITCH","VAR","RETURN"]),
+        tableau: new Set(["IF","THEN","ELSE","END"]),
+        excel: new Set(["LET","FILTER","SORT","UNIQUE","XLOOKUP","VLOOKUP","IF","SUM","AVERAGE"])
+      };
+
+      const keywords = kw[lang] || kw.python;
+
+      const esc = (s) =>
+        s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      const isLetter = (c) => /[A-Za-z_]/.test(c);
+      const isAlnum  = (c) => /[A-Za-z0-9_]/.test(c);
+      const isDigit  = (c) => /[0-9]/.test(c);
+
+      let i = 0;
+      let out = "";
+
+      while (i < code.length) {
+        const c = code[i];
+        const next = code[i + 1] || "";
+
+        // Comments
+        if (c === "#") {
+          let j = i;
+          while (j < code.length && code[j] !== "\n") j++;
+          out += `<span class="tok-com">${esc(code.slice(i, j))}</span>`;
+          i = j;
+          continue;
+        }
+        if (c === "-" && next === "-") {
+          let j = i;
+          while (j < code.length && code[j] !== "\n") j++;
+          out += `<span class="tok-com">${esc(code.slice(i, j))}</span>`;
+          i = j;
+          continue;
+        }
+
+        // Strings
+        if (c === '"' || c === "'") {
+          const quote = c;
+          let j = i + 1;
+          while (j < code.length) {
+            if (code[j] === "\\" && j + 1 < code.length) { j += 2; continue; }
+            if (code[j] === quote) { j++; break; }
+            j++;
+          }
+          out += `<span class="tok-str">${esc(code.slice(i, j))}</span>`;
+          i = j;
+          continue;
+        }
+
+        // Numbers
+        if (isDigit(c)) {
+          let j = i + 1;
+          while (j < code.length && (isDigit(code[j]) || code[j] === ".")) j++;
+          out += `<span class="tok-num">${esc(code.slice(i, j))}</span>`;
+          i = j;
+          continue;
+        }
+
+        // Identifiers / Keywords / Functions
+        if (isLetter(c)) {
+          let j = i + 1;
+          while (j < code.length && isAlnum(code[j])) j++;
+          const word = code.slice(i, j);
+
+          // function-like: next non-space is '('
+          let k = j;
+          while (k < code.length && /\s/.test(code[k])) k++;
+          const isFn = code[k] === "(";
+
+          const upper = word.toUpperCase();
+          const isKw =
+            (lang === "python" || lang === "excel") ? keywords.has(word) :
+            keywords.has(upper);
+
+          if (isKw) out += `<span class="tok-key">${esc(word)}</span>`;
+          else if (isFn) out += `<span class="tok-fn">${esc(word)}</span>`;
+          else out += `<span class="tok-id">${esc(word)}</span>`;
+
+          i = j;
+          continue;
+        }
+
+        // Operators / punctuation
+        if ("=+-*/<>!():[],.".includes(c)) {
+          let op = c;
+          if ((c === "<" || c === ">" || c === "!" || c === "=") && next === "=") {
+            op = c + next;
+            i += 2;
+          } else {
+            i += 1;
+          }
+          out += `<span class="tok-op">${esc(op)}</span>`;
+          continue;
+        }
+
+        // Other characters (spaces/newlines)
+        out += esc(c);
+        i += 1;
+      }
+
+      return out;
+    }
+
+    function typeBlock(codeEl, speed = 12, pause = 1300) {
+      const pre = codeEl.closest("pre");
+      const full = codeEl.textContent.replace(/\t/g, "  ").trimEnd();
+      const lang = detectLang(full);
+
+      if (pre) {
+        pre.dataset.lang = lang;
+        setFixedHeight(pre, full);
+      }
+
+      let i = 0;
+      codeEl.innerHTML = "";
+
+      const tick = () => {
+        const part = full.slice(0, i);
+        codeEl.innerHTML = highlight(part, lang);
+        i++;
+        if (i <= full.length) {
+          setTimeout(tick, speed);
+        } else {
+          setTimeout(() => {
+            i = 0;
+            codeEl.innerHTML = "";
+            setTimeout(tick, 300);
+          }, pause);
+        }
+      };
+      tick();
+    }
+
+    blocks.forEach((el, idx) => {
+      setTimeout(() => typeBlock(el, 12, 1300), idx * 650);
+    });
+  })();
+  </script>
 </body>
 </html>
+

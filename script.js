@@ -112,7 +112,11 @@ if (window.Chart) {
 
 // ================= GALLERY FILTERS =================
 const chips = Array.from(document.querySelectorAll("#gallery .chip"));
-const thumbs = Array.from(document.querySelectorAll("#gallery .thumb"));
+const thumbsPortfolio = Array.from(document.querySelectorAll("#gallery .thumb"));
+const thumbsBeyond    = Array.from(document.querySelectorAll("#beyondCarousel .bw-item"));
+
+// Active list for the modal (so navigation stays inside the group you opened)
+let activeThumbs = thumbsPortfolio;
 
 function setActiveChip(btn) {
   chips.forEach(c => c.classList.remove("is-active"));
@@ -120,7 +124,7 @@ function setActiveChip(btn) {
 }
 
 function filterGallery(tag) {
-  thumbs.forEach(t => {
+  thumbsPortfolio.forEach(t => {
     const tags = (t.dataset.tags || "").split(/\s+/).filter(Boolean);
     const show = tag === "all" || tags.includes(tag);
     t.classList.toggle("is-hidden", !show);
@@ -179,7 +183,7 @@ function resetZoom() {
 }
 
 function getVisibleThumbs() {
-  return thumbs.filter(t => !t.classList.contains("is-hidden"));
+  return (activeThumbs || []).filter(t => !t.classList.contains("is-hidden"));
 }
 
 function buildGalleryItems() {
@@ -211,7 +215,8 @@ function setModalImageByIndex(idx) {
   resetZoom();
 }
 
-function openModalFromThumb(thumbEl) {
+function openModalFromThumb(thumbEl, list) {
+  activeThumbs = list || thumbsPortfolio;
   buildGalleryItems();
   const idx = galleryItems.findIndex(it => it.thumbEl === thumbEl);
   currentIndex = idx >= 0 ? idx : 0;
@@ -230,9 +235,10 @@ function closeModal() {
   resetZoom();
 }
 
-// Open modal
-thumbs.forEach(t => t.addEventListener("click", () => openModalFromThumb(t)));
-
+// Open modal (portfolio)
+thumbsPortfolio.forEach(t => t.addEventListener("click", () => openModalFromThumb(t, thumbsPortfolio)));
+// Open modal (beyond work)
+thumbsBeyond.forEach(t => t.addEventListener("click", () => openModalFromThumb(t, thumbsBeyond)));
 // Close modal only if data-close="true"
 modal?.addEventListener("click", e => {
   const target = e.target;
@@ -381,7 +387,7 @@ modalViewer?.addEventListener("pointerup", e => {
 
     // Progreso por píxeles (no depende del final de la página)
     const startOffsetPx = 0;    // ignora los primeros px si quieres (ej: 200)
-    const fillEveryPx   = 2600; // px necesarios para "llenar" la mini gráfica
+    const fillEveryPx   = 6600; // px necesarios para "llenar" la mini gráfica
 
     const raw = (scrollTop - startOffsetPx) / Math.max(1, fillEveryPx);
     return clamp(raw, 0, 1);
@@ -469,4 +475,72 @@ const scrollChart = new Chart(canvas, {
   window.addEventListener("resize", () => {
     update(getScrollProgress());
   });
+})();
+
+
+// ================= BEYOND WORK CAROUSEL =================
+(function initBeyondCarousel(){
+  const root = document.getElementById("beyondCarousel");
+  if (!root) return;
+
+  const viewport = root.querySelector(".bw-viewport");
+  const track = root.querySelector(".bw-track");
+  const items = Array.from(root.querySelectorAll(".bw-item"));
+  const prev = root.querySelector(".bw-prev");
+  const next = root.querySelector(".bw-next");
+
+  if (!viewport || !track || !items.length) return;
+
+  let idx = 0;
+
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  function update(){
+    items.forEach((el, i) => el.classList.toggle("is-active", i === idx));
+
+    // Center active card inside viewport
+    const active = items[idx];
+    const vpW = viewport.clientWidth;
+
+    const maxScroll = Math.max(0, track.scrollWidth - vpW);
+    const target = (active.offsetLeft + active.offsetWidth / 2) - (vpW / 2);
+    const x = clamp(target, 0, maxScroll);
+
+    track.style.transform = `translateX(${-x}px)`;
+  }
+
+  function go(delta){
+    idx = (idx + delta + items.length) % items.length;
+    update();
+  }
+
+  prev?.addEventListener("click", () => go(-1));
+  next?.addEventListener("click", () => go(1));
+
+  // Keyboard (when focused inside the carousel)
+  root.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") go(-1);
+    if (e.key === "ArrowRight") go(1);
+  });
+
+  // Click-to-center (only when the card is NOT active).
+  // If the card is already active, we let the click continue so the lightbox can open.
+  items.forEach((el, i) => {
+    el.addEventListener("click", (e) => {
+      if (i !== idx) {
+        idx = i;
+        update();
+
+        // Prevent the lightbox from opening on the first click (center first).
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      }
+      // else: allow bubble handler (openModalFromThumb) to run
+    }, { capture: true });
+  });
+
+  window.addEventListener("resize", () => update(), { passive: true });
+
+  // init
+  update();
 })();
