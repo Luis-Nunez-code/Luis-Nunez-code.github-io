@@ -90,6 +90,24 @@
       .kpis{grid-template-columns: repeat(2, 1fr)}
       .span-6,.span-4,.span-8{grid-column: 1 / -1}
     }
+    /* Improve select readability when not hovered */
+    select {
+      color: #000;              /* Black text by default */
+      background-color: #fff;   /* White background for contrast */
+    }
+
+    /* When user interacts */
+    select:hover,
+    select:focus {
+      color: var(--text);       /* Restore light text */
+      background-color: rgba(255,255,255,.04);
+    }
+
+    /* Dropdown options */
+    select option {
+      color: #000;
+      background-color: #fff;
+    }
   </style>
 </head>
 <body>
