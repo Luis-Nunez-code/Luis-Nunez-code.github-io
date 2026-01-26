@@ -1600,3 +1600,78 @@ input, textarea{
     display: none !important;
   }
 }
+
+
+/* =======================================================================
+   MOBILE FIXES: HEADER + HERO PHOTO
+   - Header: becomes sticky + horizontally scrollable links (no cut-off)
+   - Hero photo: moves up, grows, and centers on small screens
+   ======================================================================= */
+
+/* Phone-sized header: keep it readable and prevent truncation */
+@media (max-width: 640px){
+  header.wrap.header.app-layer{
+    position: sticky;              /* stays visible but doesn't overlap content */
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  /* when header is not fixed anymore, remove the big offset */
+  main.wrap.app-layer{
+    padding-top: 16px;
+  }
+
+  .nav{
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .brand{ flex: 0 0 auto; }
+
+  .navright{
+    flex: 1;
+    min-width: 0;                  /* allows children to shrink and scroll */
+    justify-content: flex-end;
+  }
+
+  /* Make the links horizontally scrollable instead of getting cut */
+  .navlinks{
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;         /* Firefox */
+  }
+  .navlinks::-webkit-scrollbar{ display:none; } /* Chrome/Safari */
+
+  .navlinks a{
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
+/* Tablets + phones: place the photo first and make it larger */
+@media (max-width: 860px){
+  .hero{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 18px;
+  }
+
+  .hero__photo{
+    order: 1;
+    width: min(420px, 92vw);
+    margin: 0 auto 10px;
+  }
+
+  .hero__text{
+    order: 2;
+  }
+}
