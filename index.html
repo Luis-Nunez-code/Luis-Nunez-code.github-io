@@ -14,40 +14,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Online CV of Luis Rodolfo Arias Núñez: Data Analytics, Python, SQL, Power BI, automation, and reporting." />
   <title>Luis Rodolfo Arias Núñez | Resume</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./stars.css" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
-  <div class="space-bg" aria-hidden="true">
-    <div class="stars stars1"></div>
-    <div class="stars stars2"></div>
-    <div class="stars stars3"></div>
-    <div class="stars stars4"></div>
-    <div class="stars stars5"></div>
-    <div class="stars stars6"></div>
 
-    <!--<div class="shooting-star"></div>-->
+  <!-- Partículas del fondo -->
+  <canvas id="back"></canvas>
 
-    <div class="shooting-star s1"></div>
-    <div class="shooting-star s2"></div>
-    <div class="shooting-star s3"></div>
-    <div class="shooting-star s4"></div>
+  <!-- Galaxia central (en medio) -->
+  <div class="center">
+    <div class="galaxy" aria-label="Galaxia central">
+      <div class="mist"></div>
+      <div class="core"></div>
 
-    <div class="starburst b1"></div>
-    <div class="starburst b2"></div>
-    <div class="starburst b3"></div>
-
-    <div class="stars starsBig"></div>
+      <div class="orbit" style="--w:92%; --h:62%; --tilt:12deg;  --dur:18s; --delay:-3s;">
+        <div class="star" style="--s:6; --hue:210; --tw:2.8; --twDelay:-.4s; --hs:7; --hsDelay:-1.2s; --op:.95;"></div>
+      </div>
+      <div class="orbit" style="--w:84%; --h:56%; --tilt:-22deg; --dur:22s; --delay:-11s;">
+        <div class="star" style="--s:4; --hue:265; --tw:3.6; --twDelay:-1.1s; --hs:9; --hsDelay:-.2s; --op:.9;"></div>
+      </div>
+      <div class="orbit" style="--w:78%; --h:48%; --tilt:35deg;  --dur:15s; --delay:-6s;">
+        <div class="star" style="--s:5; --hue:195; --tw:2.2; --twDelay:-.8s; --hs:8; --hsDelay:-2s; --op:.92;"></div>
+      </div>
+      <div class="orbit" style="--w:74%; --h:40%; --tilt:-8deg;  --dur:12s; --delay:-2s;">
+        <div class="star" style="--s:3; --hue:235; --tw:2.9; --twDelay:-.2s; --hs:6; --hsDelay:-1.7s; --op:.85;"></div>
+      </div>
+      <div class="orbit" style="--w:68%; --h:52%; --tilt:58deg;  --dur:28s; --delay:-19s;">
+        <div class="star" style="--s:7; --hue:285; --tw:4.4; --twDelay:-1.9s; --hs:10; --hsDelay:-.9s; --op:.9;"></div>
+      </div>
+      <div class="orbit" style="--w:60%; --h:36%; --tilt:-44deg; --dur:11s; --delay:-7s;">
+        <div class="star" style="--s:3; --hue:175; --tw:2.4; --twDelay:-1.4s; --hs:7; --hsDelay:-.6s; --op:.78;"></div>
+      </div>
+      <div class="orbit" style="--w:50%; --h:44%; --tilt:-70deg; --dur:19s; --delay:-12s;">
+        <div class="star" style="--s:5; --hue:255; --tw:3.1; --twDelay:-.3s; --hs:9.5; --hsDelay:-2.3s; --op:.88;"></div>
+      </div>
+      <div class="orbit" style="--w:38%; --h:22%; --tilt:44deg;  --dur:7.2s; --delay:-4s;">
+        <div class="star" style="--s:3; --hue:290; --tw:2.6; --twDelay:-1.6s; --hs:7.8; --hsDelay:-1.9s; --op:.72;"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- ================= HEADER ================= -->
-  <header class="wrap header">
+  <!-- Partículas del frente -->
+  <canvas id="front"></canvas>
+
+  <div class="vignette"></div>
+
+
+<!-- ================= HEADER ================= -->
+  <header class="wrap header app-layer">
     <nav class="nav">
-      <a class="brand" href="#top">Luis Arias</a>
+      <a class="brand" href="#top">L.A</a>
       <div class="navright">
         <div class="navlinks">
+          <a href="#tool-timeline">Tools</a>
+          <a href="#experience">Experience</a>
+          <a href="#education">Education</a>
+          <a href="#certifications">Certifications</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#gallery">Gallery</a>
+          <a href="#beyond">Beyond Work</a>
           <a href="#contact">Contact</a>
         </div>
         <div class="scroll-mini-chart">
@@ -57,7 +84,7 @@
     </nav>
   </header>
 
-  <main id="top" class="wrap">
+  <main id="top" class="wrap app-layer">
 
     <!-- ================= HERO ================= -->
     <section class="hero">
@@ -68,17 +95,15 @@
           Data Analytics · Automation · Business Intelligence
         </p>
 
-        <p>
-          I am a data and automation analyst with strong experience supporting business and operations teams through data-driven decision making. My work focuses on transforming raw data into clear, reliable, and actionable insights, using a combination of analytics, reporting, and process automation.
-        </p>
+        
+          <div class="hero-text-box">
+            
+            <p>
+              I work as a data and automation analyst, and over the past few years, I’ve focused on helping business and ops teams make smarter decisions by putting their data to work. Basically, I take raw, messy info and turn it into something clear and useful — whether that’s through dashboards, reports, or automating processes that save people time and headaches. My goal’s always been the same: make insights easy to understand and even easier to act on.
+            </p>
+          </div>
 
-        <p>
-          I have extensive experience building KPI frameworks, automated reports, and reproducible data workflows that improve data quality, reduce manual effort, and increase operational visibility. I collaborate closely with stakeholders to ensure that data solutions align with real business needs, particularly in sales operations, forecasting, and performance tracking.
-        </p>
-
-        <p>
-          My technical stack includes Python, SQL, Power BI, advanced Excel, Power Query, and Power Automate, which I use together to design end-to-end analytical solutions, from data extraction and cleaning to visualization and automation. I am especially motivated by projects that bridge technical execution with business impact, helping teams work more efficiently and make informed decisions with confidence.
-        </p>
+       
 
         <div class="cta-row">
           <a class="btn" href="#contact">Contact me</a>
@@ -88,7 +113,11 @@
           </a>
           <a class="btn btn--ghost" target="_blank" rel="noopener"
              href="assets/Luis Arias.pdf">
-            Curriculum pdf
+            Curriculum pdf for Humans
+          </a>
+          <a class="btn btn--ghost" target="_blank" rel="noopener"
+             href="assets/Luis Rodolfo Arias.docx">
+            Curriculum .doc for IA
           </a>
         </div>
 
@@ -99,7 +128,7 @@
       </div>
 
       <div class="hero__photo">
-        <img src="assets/profile.jpg" alt="Photo of Luis Rodolfo Arias Núñez" />
+        <img src="assets/profile222.webp" alt="Photo of Luis Rodolfo Arias Núñez" />
       </div>
     </section>
 
@@ -107,8 +136,8 @@
 
     <!-- ================= PROFILE CHARTS ================= -->
     <section id="profile-charts" class="section">
-      <h2>Professional Profile Overview</h2>
-      <p class="muted">
+      <h2 style="color: white;">Professional Profile Overview</h2>
+      <p class="muted" style="color: white;">
         A visual summary of my skills and the tools I’ve used throughout my career.
       </p>
 
@@ -131,15 +160,12 @@
         <canvas id="toolsTimelineChart"></canvas>
       </div>
     </section>
-
+    <section id="tool-timeline" class="section tool-timeline">
     <hr class="divider" />
 
     <!-- ================= TOOL TIMELINE (DESKTOP ONLY) ================= -->
-    <section id="tool-timeline" class="section tool-timeline">
-      <h2>Tools I use</h2>
-      <p class="muted tool-timeline__muted">
-        A quick visual story of how I use each tool.
-      </p>
+    
+      <h2>Tools I use more</h2>
 
       <div class="timeline">
 
@@ -158,7 +184,7 @@
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/Python-logo-notext.svg.png" alt="Python logo" />
+              <img class="tool-logo" src="assets/Python-logo-notext.svg.webp" alt="Python logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -192,7 +218,7 @@ print(kpi.tail())
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/Sql_data_base_with_logo.png" alt="SQL logo" />
+              <img class="tool-logo" src="assets/Sql_data_base_with_logo.webp" alt="SQL logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -230,7 +256,7 @@ ORDER BY total_sales DESC;
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/microsoft-excel.png" alt="Microsoft Excel logo" />
+              <img class="tool-logo" src="assets/microsoft-excel.webp" alt="Microsoft Excel logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -264,7 +290,7 @@ ORDER BY total_sales DESC;
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/microsoft-power-automate.png" alt="Power Automate logo" />
+              <img class="tool-logo" src="assets/microsoft-power-automate.webp" alt="Power Automate logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -297,7 +323,7 @@ Trigger: New email arrives
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/free-power-bi-logo-icon-svg-download-png-2701891.png" alt="Power BI logo" />
+              <img class="tool-logo" src="assets/free-power-bi-logo-icon-svg-download-png-2701891.webp" alt="Power BI logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -331,7 +357,7 @@ CALCULATE(
 
           <div class="timeline-center">
             <div class="timeline-node">
-              <img class="tool-logo" src="assets/Tableau_Logo.png" alt="Tableau logo" />
+              <img class="tool-logo" src="assets/Tableau_Logo.webp" alt="Tableau logo" />
             </div>
             <div class="timeline-arrow" aria-hidden="true"></div>
           </div>
@@ -352,9 +378,266 @@ END
 
       </div>
     </section>
+    <section id="experience" class="section">
+    <hr class="divider" />
+    <!-- ================= EXPERIENCE ================= -->
+     
+      <h2>Experience</h2>
+
+
+      <div class="exp-timeline" aria-label="Work experience timeline">
+
+        <!-- Accenture -->
+        <article class="exp-item exp-item--accenture" data-reveal>
+          <div class="exp-left">
+            <div class="exp-badge">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <div class="div"><img class="tool-logo" src="assets/Accenture.webp" alt="Tableau logo" /></div>
+              <div class="exp-when">Dec 2022 – Now .......</div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <header class="exp-head">
+              <h3 class="exp-role">Business Advisor</h3>
+              <div class="exp-meta">
+                <span class="exp-company">Accenture</span>
+                <span class="exp-sep">•</span>
+                <span class="exp-loc">Heredia, Aurora</span>
+              </div>
+            </header>
+
+            <ul class="exp-bullets">
+              <li>Created, automated, and optimized sales project reports and data flows, supporting KPI measurement.</li>
+              <li>Used Python (Pandas, NumPy) for data analysis and reporting.</li>
+              <li><strong>Impact:</strong> improved decision-making by delivering accurate, automated KPI tracking.</li>
+            </ul>
+
+            <div class="exp-tags" aria-label="Tools used">
+              <span class="tag">Python</span>
+              <span class="tag">Pandas</span>
+              <span class="tag">NumPy</span>
+              <span class="tag">Scikit-learn</span>
+              <span class="tag">Power Automate</span>
+              <span class="tag">Power BI (DAX)</span>
+            </div>
+          </div>
+
+          <div class="exp-spark" aria-hidden="true"></div>
+        </article>
+
+        <article class="exp-item exp-item--accenture" data-reveal>
+          <div class="exp-left">
+            <div class="exp-badge">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <div class="div"><img class="tool-logo" src="assets/Accenture.webp" alt="Tableau logo" /></div>
+              <div class="exp-when">Dec 2021 – Nov 2022</div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <header class="exp-head">
+              <h3 class="exp-role">Business Advisor</h3>
+              <div class="exp-meta">
+                <span class="exp-company">Accenture</span>
+                <span class="exp-sep">•</span>
+                <span class="exp-loc">Heredia, Aurora</span>
+              </div>
+            </header>
+
+            <ul class="exp-bullets">
+              <li>Managed renewals of EA agreements for USA and SMB segments.</li>
+              <li>Mentored and guided the team, ensuring data accuracy and reporting standards.</li>
+              <li>Performed sales data analysis, revenue validation, and pipeline reporting/maintenance.</li>
+              <li><strong>Impact:</strong> improved pipeline hygiene and revenue validation processes to support sales growth.</li>
+            </ul>
+
+            <div class="exp-tags" aria-label="Tools used">
+              <span class="tag">Excel</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">CRM tools</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+
+          <div class="exp-spark" aria-hidden="true"></div>
+        </article>
+
+        <!-- N3 -->
+        <article class="exp-item exp-item--n3" data-reveal>
+          <div class="exp-left">
+            <div class="exp-badge">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <div class="div"><img class="tool-logo" src="assets/N3-Results-Logo.webp" alt="Tableau logo" /></div>
+              <div class="exp-when">Sep 2017 – Nov 2021</div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <header class="exp-head">
+              <h3 class="exp-role">Data Analyst</h3>
+              <div class="exp-meta">
+                <span class="exp-company">N3</span>
+                <span class="exp-sep">•</span>
+                <span class="exp-loc">Heredia, Aurora</span>
+              </div>
+            </header>
+
+            <ul class="exp-bullets">
+              <li>Reported results, forecasted client trends, and performed large-scale pipeline corrections.</li>
+              <li>Built dashboards for management, audited leads/opportunities, and created price lists and default product references.</li>
+              <li>Cross-referenced Microsoft reports with internal data for purchase auditing.</li>
+              <li><strong>Impact:</strong> increased data accuracy and pipeline prioritization efficiency by aligning with partner needs.</li>
+            </ul>
+
+            <div class="exp-tags" aria-label="Tools used">
+              <span class="tag">Power BI</span>
+              <span class="tag">Excel</span>
+              <span class="tag">SQL</span>
+              <span class="tag">CRM systems</span>
+            </div>
+          </div>
+
+          <div class="exp-spark" aria-hidden="true"></div>
+        </article>
+
+        <article class="exp-item exp-item--n3" data-reveal>
+          <div class="exp-left">
+            <div class="exp-badge">
+              <span class="exp-dot" aria-hidden="true"></span>
+              <div class="div"><img class="tool-logo" src="assets/N3-Results-Logo.webp" alt="Tableau logo" /></div>
+              <div class="exp-when">Nov 2015 – Sep 2017</div>
+            </div>
+          </div>
+
+          <div class="exp-card">
+            <header class="exp-head">
+              <h3 class="exp-role">Business Analyst</h3>
+              <div class="exp-meta">
+                <span class="exp-company">N3</span>
+                <span class="exp-sep">•</span>
+                <span class="exp-loc">Heredia, Aurora</span>
+              </div>
+            </header>
+
+            <ul class="exp-bullets">
+              <li>Oversaw the U.S. tele-compliance team pipeline.</li>
+              <li>Monitored reported and allocated revenue while preparing metrics to support managerial decisions.</li>
+              <li><strong>Impact:</strong> ensured consistency in compliance reporting and revenue tracking.</li>
+            </ul>
+
+            <div class="exp-tags" aria-label="Tools used">
+              <span class="tag">Excel</span>
+              <span class="tag">Internal CRM</span>
+            </div>
+          </div>
+
+          <div class="exp-spark" aria-hidden="true"></div>
+        </article>
+
+      </div>
+</section>
+    
+  <section id="education" class="section">
+  <hr class="divider" />
+  <div class="sectionhead">
+    <h2 class="sectitle">Education</h2>
+    <p class="secsub">Academic background and training.</p>
+  </div>
+
+  <div class="edu-grid" aria-label="Education">
+    <article class="edu-card" data-reveal>
+      <div class="edu-iconwrap" aria-hidden="true">
+        <img class="edu-icon" src="assets/UNED.webp" alt="UNED icon"
+             onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5FRFU8L3RleHQ+CiAgICA8L3N2Zz4=';" />
+      </div>
+      <div class="edu-body">
+        <h3 class="edu-title">UNED</h3>
+        <p class="edu-meta">Computer Science</p>
+        <p class="edu-date">2022 — Present</p>
+        <p class="edu-note">Bachelor’s Degree in progress (final project pending to graduate).</p>
+      </div>
+    </article>
+
+    <article class="edu-card" data-reveal>
+      <div class="edu-iconwrap" aria-hidden="true">
+        <img class="edu-icon" src="assets/edu-ina.webp" alt="INA icon"
+             onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5FRFU8L3RleHQ+CiAgICA8L3N2Zz4=';" />
+      </div>
+      <div class="edu-body">
+        <h3 class="edu-title">INA</h3>
+        <p class="edu-meta">Technician in Networks and Telematic Processes</p>
+        <p class="edu-date">2008 — 2011</p>
+      </div>
+    </article>
+
+    <article class="edu-card" data-reveal>
+      <div class="edu-iconwrap" aria-hidden="true">
+        <img class="edu-icon" src="assets/edu-highschool.webp" alt="High school icon"
+             onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5FRFU8L3RleHQ+CiAgICA8L3N2Zz4=';" />
+      </div>
+      <div class="edu-body">
+        <h3 class="edu-title">Liceo San José de Alajuela</h3>
+        <p class="edu-meta">High School Diploma</p>
+        <p class="edu-date">2001 — 2007</p>
+      </div>
+    </article>
+  </div>
+
+</section>
+
+
+  <section id="certifications" class="section">
+  <hr class="divider" />
+  <div class="sectionhead">
+    <h2 class="sectitle">Certifications</h2>
+    <p class="secsub">Credentials and learning milestones.</p>
+  </div>
+
+  <div class="cert-grid" aria-label="Certifications">
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/google.webp" alt="Google Data Analytics icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Google Data Analytics</h3>
+    </article>
+
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/google.webp" alt="Google Project Management icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Google Project Management</h3>
+    </article>
+
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/google.webp" alt="Google IT Automation with Python icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Google IT Automation with Python</h3>
+    </article>
+
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/google.webp" alt="Google Advanced Data Analytics icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Google Advanced Data Analytics</h3>
+    </article>
+
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/code-cademy.webp" alt="BI Data Analyst Career Path icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Business Intelligence Data Analyst Career Path</h3>
+    </article>
+
+    <article class="cert-card" data-reveal>
+      <img class="cert-icon" src="assets/code-cademy.webp" alt="Data Scientist Analytics Specialist icon"
+           onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjgnIGhlaWdodD0nMTI4JyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSdnJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMTExJy8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMzMzJy8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB4PSc4JyB5PSc4JyB3aWR0aD0nMTEyJyBoZWlnaHQ9JzExMicgcng9JzI0JyBmaWxsPSd1cmwoI2cpJyBzdHJva2U9J3JnYmEoMjU1LDI1NSwyNTUsLjI1KScvPgogICAgPHRleHQgeD0nNjQnIHk9Jzc0JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsIHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNDQnIGZpbGw9J3doaXRlJz5DRVJUPC90ZXh0PgogICAgPC9zdmc+';" />
+      <h3 class="cert-title">Data Scientist: Analytics Specialist</h3>
+    </article>
+  </div>
+
+</section>
+
+<section id="portfolio" class="section"></section>
+    <hr class="divider" />
 
     <!-- ================= PORTFOLIO ================= -->
-    <section id="portfolio" class="section">
       <h2>Work samples</h2>
       <p class="muted">Some links are pending and will be enabled soon.</p>
 
@@ -390,23 +673,20 @@ END
           <div class="card__desc">KPI indicators, charts, and visualizations.</div>
         </a>
 
-        
-
-        
 
         <a class="card card--disabled" aria-disabled="true">
           <div class="card__title">Looker (pending)</div>
           <div class="card__desc">Interactive dashboard.</div>
         </a>
 
-        
-      </div>
-    </section>
 
+      </div>
+
+    <section id="gallery" class="section"></section>
     <hr class="divider" />
 
     <!-- ================= GALLERY ================= -->
-    <section id="gallery" class="section">
+    
       <div class="section__row">
         <h2>Interactive Gallery</h2>
 
@@ -425,45 +705,35 @@ END
       </p>
 
       <div class="gallery" id="galleryGrid">
-        <button class="thumb" data-tags="authomated_pdf_report" data-full="assets/gallery-1.jpg">
-          <img src="assets/gallery-1.jpg" alt="Authomated PDF report" />
+        <button class="thumb" data-tags="authomated_pdf_report" data-full="assets/gallery-1.webp">
+          <img src="assets/gallery-1.webp" alt="Authomated PDF report" />
         </button>
-        <button class="thumb" data-tags="authomated_pdf_report" data-full="assets/gallery-2.jpg">
-          <img src="assets/gallery-2.jpg" alt="Authomated PDF report" />
+        <button class="thumb" data-tags="authomated_pdf_report" data-full="assets/gallery-2.webp">
+          <img src="assets/gallery-2.webp" alt="Authomated PDF report" />
         </button>
-        <button class="thumb" data-tags="python" data-full="assets/gallery-3.jpg">
-          <img src="assets/gallery-3.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-3.webp">
+          <img src="assets/gallery-3.webp" alt="Python chart" />
         </button>
 
-        <button class="thumb" data-tags="python" data-full="assets/gallery-4.jpg">
-          <img src="assets/gallery-4.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-4.webp">
+          <img src="assets/gallery-4.webp" alt="Python chart" />
         </button>
-        <button class="thumb" data-tags="python" data-full="assets/gallery-5.jpg">
-          <img src="assets/gallery-5.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-5.webp">
+          <img src="assets/gallery-5.webp" alt="Python chart" />
         </button>
-        <button class="thumb" data-tags="python" data-full="assets/gallery-6.jpg">
-          <img src="assets/gallery-6.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-6.webp">
+          <img src="assets/gallery-6.webp" alt="Python chart" />
         </button>
-        <button class="thumb" data-tags="python" data-full="assets/gallery-7.jpg">
-          <img src="assets/gallery-7.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-7.webp">
+          <img src="assets/gallery-7.webp" alt="Python chart" />
         </button>
-        <button class="thumb" data-tags="python" data-full="assets/gallery-8.jpg">
-          <img src="assets/gallery-8.jpg" alt="Python chart" />
+        <button class="thumb" data-tags="python" data-full="assets/gallery-8.webp">
+          <img src="assets/gallery-8.webp" alt="Python chart" />
         </button>
       </div>
-    </section>
 
+    <section id="beyond" class="section"></section>
     <hr class="divider" />
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- ================= BEYOND WORK / GALLERY ================= -->
@@ -505,30 +775,30 @@ END
 
           <div class="bw-viewport">
             <div class="bw-track">
-              <button class="bw-item" type="button" data-full="assets/personal/1.jpg">
-                <img src="assets/personal/1.jpg" alt="Art related image" />
+              <button class="bw-item" type="button" data-full="assets/personal/1.webp">
+                <img src="assets/personal/1.webp" alt="Art related image" />
               </button>
 
-              <button class="bw-item" type="button" data-full="assets/personal/2.jpg">
-                <img src="assets/personal/2.jpg" alt="Animals related image" />
+              <button class="bw-item" type="button" data-full="assets/personal/2.webp">
+                <img src="assets/personal/2.webp" alt="Animals related image" />
               </button>
 
-              <button class="bw-item" type="button" data-full="assets/personal/3.jpg">
-                <img src="assets/personal/3.jpg" alt="Creative project" />
+              <button class="bw-item" type="button" data-full="assets/personal/3.webp">
+                <img src="assets/personal/3.webp" alt="Creative project" />
               </button>
 
-              <button class="bw-item" type="button" data-full="assets/personal/4.jpg">
-                <img src="assets/personal/4.jpg" alt="Animals" />
+              <button class="bw-item" type="button" data-full="assets/personal/4.webp">
+                <img src="assets/personal/4.webp" alt="Animals" />
               </button>
-              <button class="bw-item" type="button" data-full="assets/personal/5.jpg">
-                <img src="assets/personal/5.jpg" alt="Animals" />
-              </button>   
-              <button class="bw-item" type="button" data-full="assets/personal/6.jpeg">
-                <img src="assets/personal/6.jpeg" alt="Animals" />
-              </button>              
-              <button class="bw-item" type="button" data-full="assets/personal/7.jpeg">
-                <img src="assets/personal/7.jpeg" alt="Animals" />
-              </button>              
+              <button class="bw-item" type="button" data-full="assets/personal/5.webp">
+                <img src="assets/personal/5.webp" alt="Animals" />
+              </button>
+              <button class="bw-item" type="button" data-full="assets/personal/6.webp">
+                <img src="assets/personal/6.webp" alt="Animals" />
+              </button>
+              <button class="bw-item" type="button" data-full="assets/personal/7.webp">
+                <img src="assets/personal/7.webp" alt="Animals" />
+              </button>
 
 
             </div>
@@ -539,59 +809,52 @@ END
       </div>
 
     </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <hr class="divider" />
 
 
     <!-- ================= CONTACT ================= -->
-    <section id="contact" class="section">
+      
       <h2>Contact</h2>
+      <section id="contact" class="section">
+        <div class="contact-grid">
+          <div class="contact-card">
 
-      <div class="contact-grid">
-        <div class="contact-card">
-          <h3>Details</h3>
-          <p class="muted">
-            You can reach out via Direct Email, the form or through LinkedIn.
-          </p>
+            <h3 style="color: rgb(0, 0, 0);">Details</h3>
+            <p class="muted" style="color: rgb(0, 0, 0);">
+              You can reach out via Direct Email, the form or through LinkedIn.
+            </p>
 
-          <div class="contact-links">
-            <a href="mailto:luisrodolfoarias@outlook.es">
-              luisrodolfoarias@outlook.es
-            </a>
+            <div class="contact-links" >
+              <a href="mailto:luisrodolfoarias@outlook.es" style="color: rgb(0, 0, 0);">
+                luisrodolfoarias@outlook.es
+              </a>
 
-            <a target="_blank" rel="noopener"
-              href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/">
-              LinkedIn
-            </a>
+              <a target="_blank" rel="noopener"
+                href="https://wa.me/50689901000" style="color: rgb(0, 0, 0);">
+                +506 8990-1000
+              </a>
 
-            <a href="#portfolio">View portfolio</a>
+              <a target="_blank" rel="noopener"
+                href="https://www.linkedin.com/in/luis-rodolfo-arias-nunez-109150b3/" style="color: rgb(0, 0, 0);">
+                LinkedIn
+              </a>
+
+              
+
+              <a href="#portfolio" style="color: rgb(0, 0, 0);">View portfolio</a>
+            </div>
           </div>
-        </div>
 
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdLP0oHZkQbjUn98hhUY3ZIqIaH668_2aW3t097R5RQraXNxw/viewform?embedded=true"
-          title="Contact form"
-          style="width:100% !important; border:0 !important; display:block !important"
-          loading="lazy"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </section>
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdLP0oHZkQbjUn98hhUY3ZIqIaH668_2aW3t097R5RQraXNxw/viewform?embedded=true"
+            title="Contact form"
+            style="width:100% !important; border:0 !important; display:block !important"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </section>
+    
 
     <footer class="footer">
       <p class="tiny muted">
@@ -792,4 +1055,3 @@ END
   </script>
 </body>
 </html>
-
