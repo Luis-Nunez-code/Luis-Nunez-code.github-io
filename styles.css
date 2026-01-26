@@ -29,10 +29,10 @@ body{
 header.wrap.header.app-layer {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(980px, calc(100% - 32px));
 
-  width: 60%;
   background: rgba(255,255,255,.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,.08);
@@ -40,6 +40,7 @@ header.wrap.header.app-layer {
   box-shadow: var(--shadow);
   z-index: 1000;
 }
+
 main.wrap.app-layer {
   padding-top: 80px; /* ajusta según el alto real de tu header */
 }
@@ -67,10 +68,26 @@ main.wrap.app-layer {
   text-decoration: none;
   padding: 8px 10px;
   border-radius: 999px;
+
+  border: 1px solid transparent;
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+  will-change: transform;
 }
 .navlinks a:hover{
-  background: rgb(146, 144, 155);
-  color: var(--text);
+  background: rgba(17, 17, 17, 0.08);
+  border-color: rgba(0,0,0,.10);
+  color: #111 !important;
+
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+}
+.navlinks a:active{
+  transform: translateY(0px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.14);
+}
+@media (prefers-reduced-motion: reduce){
+  .navlinks a{ transition: none; }
+  .navlinks a:hover{ transform: none; }
 }
 
 /* ================= HERO ================= */
@@ -521,7 +538,7 @@ input:focus, textarea:focus{ border-color: #111; }
   gap: 14px;
 }
 .scroll-mini-chart{
-  width: min(250px, 48vw);
+  width: min(90px, 48vw);
   height: 52px;
   display: flex;
   align-items: center;
@@ -1206,24 +1223,33 @@ input, textarea{
 }
 
 /* ================= EXPERIENCE (ANIMATED) ================= */
+
+/* Center the whole experience section and keep it within the same width as the header/wrap */
 .exp-timeline{
   margin-top: 18px;
   display: grid;
   gap: 18px;
+
+  width: min(980px, calc(100% - 32px));
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* One-column layout so badge + card stay centered together */
 .exp-item{
   position: relative;
   display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 14px;
-  align-items: stretch;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 10px;
+  align-items: start;
 }
 
 .exp-left{
+  width: 100%;
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .exp-badge{
@@ -1256,15 +1282,25 @@ input, textarea{
   white-space: nowrap;
 }
 
+/* Card is centered and never wider than the header */
 .exp-card{
+  width: 100%;
+  max-width: 980px;
+
   position: relative;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.08);
+  background: rgba(95, 93, 93, 0.8);
   backdrop-filter: blur(12px) saturate(120%);
   box-shadow: 0 18px 60px rgba(0,0,0,.32);
   padding: 16px 16px 14px;
   overflow: hidden;
+  
+}
+
+/* Optional: slightly narrower cards on large screens (looks cleaner) */
+@media (min-width: 900px){
+  .exp-card{ max-width: 900px; }
 }
 
 .exp-card::before{
@@ -1392,12 +1428,6 @@ input, textarea{
 
 /* Responsive */
 @media (max-width: 860px){
-  .exp-item{
-    grid-template-columns: 1fr;
-  }
-  .exp-left{
-    justify-content: flex-start;
-  }
   .exp-badge{
     position: relative;
     top: auto;
@@ -1434,7 +1464,7 @@ input, textarea{
   gap: 14px;
   padding: 16px 16px;
   border-radius: 18px;
-  background: rgba(255,255,255,.04);
+  background: rgba(66, 65, 65, 0.8);
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: 0 12px 30px rgba(0,0,0,.20);
   overflow: hidden;
@@ -1491,7 +1521,7 @@ input, textarea{
   position: relative;
   padding: 14px 14px;
   border-radius: 18px;
-  background: rgba(255,255,255,.04);
+  background: rgba(88, 88, 88, 0.8);
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: 0 12px 30px rgba(0,0,0,.20);
   overflow: hidden;
@@ -1564,3 +1594,9 @@ input, textarea{
   transform: scale(1.03);
 }
 
+/* Ocultar Google Form en celular */
+@media (max-width: 768px) {
+  .google-form {
+    display: none !important;
+  }
+}

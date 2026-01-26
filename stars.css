@@ -10,6 +10,9 @@
   width: 100vw;
   height: 100vh;
   display: block;
+  /* keep canvases on their own layer to reduce scroll flicker */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 #back{ z-index: 0; }
@@ -37,7 +40,7 @@
   --glow: rgba(130,160,255,.18);
 }
 
-html, body { height:100%; margin:0; }
+html, body { height:100%; margin:0; background-color:#04050d; }
 body{
   background:
     radial-gradient(1200px 900px at 50% 50%, rgba(30,55,120,.22), transparent 60%),
